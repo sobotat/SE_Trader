@@ -5,9 +5,48 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1f9edf2c-0f7a-4186-b8a8-6d66f361729a" name="Changes" comment="1.0">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/res/icons/icon_add_white.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/res/icons/icon_distance_white.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/res/icons/icon_load_white.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/res/icons/icon_map_pinpoint_white.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/res/icons/icon_remove_white.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/res/icons/icon_save_white.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/res/icons/icon_view_white.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/res/se_trader_logo.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/res/se_trader_logo.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.3.3/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.3.3/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.3.3/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.3.3/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.3.3/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.3.3/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.3.3/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.3.3/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.3.3/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.3.3/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.3.3/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.3.3/fileHashes/resourceHashesCache.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/setrader/se_trader/Controller.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/setrader/se_trader/Controller.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/setrader/se_trader/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/setrader/se_trader/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/setrader/se_trader/MyRunnable.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/setrader/se_trader/MyRunnable.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/image/lib/modules" beforeDir="false" afterPath="$PROJECT_DIR$/build/image/lib/modules" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/jlinkbase/jlinkjars/SE_Trader-1.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/build/jlinkbase/jlinkjars/SE_Trader-1.0.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/jlinkbase/jlinkjars/controlsfx-11.1.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/jlinkbase/jlinkjars/formsfx-core-11.3.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/jpackage/SE_Trader-1.0.exe" beforeDir="false" afterPath="$PROJECT_DIR$/build/jpackage/SE_Trader-1.0.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/jpackage/SE_Trader-1.0.msi" beforeDir="false" afterPath="$PROJECT_DIR$/build/jpackage/SE_Trader-1.0.msi" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/jpackage/SE_Trader/SE_Trader.exe" beforeDir="false" afterPath="$PROJECT_DIR$/build/jpackage/SE_Trader/SE_Trader.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/jpackage/SE_Trader/SE_Trader.ico" beforeDir="false" afterPath="$PROJECT_DIR$/build/jpackage/SE_Trader/SE_Trader.ico" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/jpackage/SE_Trader/runtime/lib/modules" beforeDir="false" afterPath="$PROJECT_DIR$/build/jpackage/SE_Trader/runtime/lib/modules" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/libs/SE_Trader-1.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/build/libs/SE_Trader-1.0.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/com/setrader/se_trader/main-view.css" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/com/setrader/se_trader/main-view.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/com/setrader/se_trader/main-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/com/setrader/se_trader/main-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/com/setrader/se_trader/main-viewxx.fxml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/res/icon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/setrader/se_trader/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/setrader/se_trader/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/setrader/se_trader/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/setrader/se_trader/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/setrader/se_trader/main-view.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/setrader/se_trader/main-view.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/setrader/se_trader/main-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/setrader/se_trader/main-view.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/res/icon.ico" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,7 +102,9 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="26ZH5s1QAHnlA6FviPG3h5JUfjI" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -71,18 +112,23 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/res" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/.hide" />
+    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.25780463" />
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\tomas\Desktop\-\Projekty\JAVA\SE Trader\.hide" />
       <recent name="C:\Users\tomas\Desktop\-\Projekty\JAVA\SE Trader\src\main\resources\res" />
       <recent name="C:\Users\tomas\Desktop\-\Projekty\JAVA\SE Trader" />
       <recent name="C:\Users\tomas\Desktop\-\Projekty\JAVA\SE Trader\src\main\resources\com\setrader\se_trader" />
       <recent name="C:\Users\tomas\Desktop\-\Projekty\JAVA\SE Trader\src\main\resources" />
-      <recent name="C:\Users\tomas\Desktop\-\Projekty\JAVA\SE Trader\src\main\java\com\setrader\se_trader" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\tomas\Desktop\-\Projekty\JAVA\SE Trader\.hide" />
+      <recent name="C:\Users\tomas\Desktop\-\Projekty\JAVA\SE Trader\src\main\resources\res\icons" />
       <recent name="C:\Users\tomas\Desktop\-\Projekty\JAVA\SE Trader" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
@@ -165,7 +211,14 @@
       <option name="project" value="LOCAL" />
       <updated>1647635361320</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="1.0">
+      <created>1647636071598</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1647636071598</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

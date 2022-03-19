@@ -36,6 +36,16 @@ public class Main extends Application {
         // Loading GPS from file to Arr and Table
         controller.pb_status.setVisible(false);
         controller.loadTable("gps.txt");
+
+        stage.setOnCloseRequest(e -> {
+            try {
+                Files.writeGPS("gps.txt", gpsArr);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
+            System.exit(0);
+        });
     }
 
     public static void main(String[] args) {

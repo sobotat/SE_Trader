@@ -13,7 +13,7 @@ repositories {
 }
 
 ext {
-    junitVersion = '5.8.1'
+    junitVersion = '5.8.2'
 }
 
 sourceCompatibility = '17'
@@ -34,8 +34,8 @@ javafx {
 }
 
 dependencies {
-    implementation('org.controlsfx:controlsfx:11.1.0')
-    implementation('com.dlsc.formsfx:formsfx-core:11.3.2') {
+    implementation('org.controlsfx:controlsfx:11.1.1')
+    implementation('com.dlsc.formsfx:formsfx-core:11.5.0') {
         exclude(group: 'org.openjfx')
     }
     implementation('org.kordamp.bootstrapfx:bootstrapfx-core:0.4.0')
@@ -65,7 +65,7 @@ jlink {
                 '--vendor', 'Tomas Sobota'
         ]
         if (org.gradle.internal.os.OperatingSystem.current().windows) {
-            imageOptions += ['--icon', 'src/main/resources/res/icon.ico']
+            imageOptions += ['--icon', 'src/main/resources/res/se_trader_logo.ico']
             installerOptions += ['--win-per-user-install',
                                  '--win-dir-chooser',
                                  '--win-menu',

@@ -116,6 +116,7 @@ public class Controller {
                 for (int t = 0; t < numOfThreads; t++){
                     Runnable runShortestRoute = new MyRunnable(T, blockSize);
                     threads.add(new Thread(runShortestRoute, ("shortestRoute t" + t)));
+                    threads.getLast().setDaemon(true);
                     threads.getLast().start();
                     T++;
                 }
@@ -156,6 +157,7 @@ public class Controller {
         };
 
         Thread threadCalculate = new Thread( runCalculate, "CalculateThread");
+        threadCalculate.setDaemon(true);
         threadCalculate.start();
         pb_status.setProgress(1);
     }
@@ -187,6 +189,7 @@ public class Controller {
         };
 
         Thread threadCalculate = new Thread( runCalculate, "CalculateThread");
+        threadCalculate.setDaemon(true);
         threadCalculate.start();
     }
 

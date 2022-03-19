@@ -13,99 +13,155 @@
 <?import javafx.scene.layout.VBox?>
 
 <VBox prefHeight="440.0" prefWidth="915.0" spacing="20.0" stylesheets="@main-view.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.setrader.se_trader.Controller">
-
-    <padding>
-        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-    </padding>
-    <HBox prefHeight="420.0" prefWidth="997.0">
-        <VBox prefHeight="420.0" prefWidth="707.0">
-            <HBox prefHeight="58.0" prefWidth="680.0">
-                <ImageView fitHeight="48.0" fitWidth="462.0" pickOnBounds="true" preserveRatio="true">
-                    <Image url="@../../../res/se_logo.png"/>
-                </ImageView>
+    <HBox prefHeight="454.0" prefWidth="885.0" style="-fx-background-color: #2F2F2F;">
+        <VBox prefHeight="410.0" prefWidth="332.0">
+            <VBox alignment="BOTTOM_CENTER" prefHeight="410.0" prefWidth="265.0">
+                <VBox.margin>
+                    <Insets left="15.0" right="25.0" />
+                </VBox.margin>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                      <ImageView fitHeight="48.0" fitWidth="462.0" pickOnBounds="true" preserveRatio="true">
+                          <Image url="@../../../res/se_logo.png" />
+                     <HBox.margin>
+                        <Insets right="15.0" />
+                     </HBox.margin>
+                      </ImageView>
+                  <ImageView fitHeight="48.0" fitWidth="462.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../res/se_trader_logo.png" />
+                     </image>
+                  </ImageView>
+               </children>
             </HBox>
-            <TableView fx:id="gpsTable" prefHeight="306.0" prefWidth="470.0">
-                <columns>
-                    <TableColumn fx:id="nameCol" prefWidth="271.20001220703125" style="-fx-text: white;"
-                                 text="Name"/>
-                    <TableColumn minWidth="0.0" prefWidth="100.0" text="X" fx:id="xCol"/>
-                    <TableColumn fx:id="yCol" minWidth="0.0" prefWidth="100.0" text="Y"/>
-                    <TableColumn fx:id="zCol" minWidth="0.0" prefWidth="100.0" text="Z"/>
-                    <TableColumn fx:id="colorCol" prefWidth="107.20001220703125" text="Color"/>
-                </columns>
-                <columnResizePolicy>
-                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
-                </columnResizePolicy>
-                <VBox.margin>
-                    <Insets top="25.0"/>
-                </VBox.margin>
-            </TableView>
-            <HBox alignment="CENTER" prefHeight="53.0" prefWidth="470.0"/>
-            <TextField fx:id="tf_GPS" prefHeight="25.0" prefWidth="518.0" promptText="Write GPS">
-                <VBox.margin>
-                    <Insets bottom="15.0"/>
-                </VBox.margin>
-            </TextField>
-        </VBox>
-        <VBox prefHeight="420.0" prefWidth="361.0">
-            <VBox alignment="BOTTOM_CENTER" prefHeight="421.0" prefWidth="582.0">
-                <VBox.margin>
-                    <Insets left="25.0" right="15.0"/>
-                </VBox.margin>
-                <Button fx:id="btn_Load" onAction="#onLoadButtonClick" prefHeight="10.0" prefWidth="225.0"
-                        text="Load">
+                <Button fx:id="btn_Load" alignment="CENTER" graphicTextGap="5.0" onAction="#onLoadButtonClick" prefHeight="10.0" prefWidth="225.0" text="Load" textAlignment="CENTER">
                     <VBox.margin>
-                        <Insets top="10.0"/>
+                        <Insets top="10.0" />
                     </VBox.margin>
+               <graphic>
+                  <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../res/icons/icon_save_white.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
                 </Button>
-                <Button fx:id="btn_Save" onAction="#onSaveButtonClick" prefHeight="10.0" prefWidth="225.0"
-                        text="Save">
+                <Button fx:id="btn_Save" onAction="#onSaveButtonClick" prefHeight="10.0" prefWidth="225.0" text="Save">
                     <VBox.margin>
-                        <Insets top="10.0"/>
+                        <Insets top="10.0" />
                     </VBox.margin>
+               <graphic>
+                  <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../res/icons/icon_load_white.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
                 </Button>
-                <Button fx:id="btn_CalculateNext" onAction="#onCalculateNextButtonClick" prefHeight="10.0"
-                        prefWidth="225.0" text="Calculate to Next">
+                <Button fx:id="btn_CalculateNext" onAction="#onCalculateNextButtonClick" prefHeight="10.0" prefWidth="225.0" text="Calculate to Next">
                     <VBox.margin>
-                        <Insets top="15.0"/>
+                        <Insets top="15.0" />
                     </VBox.margin>
+               <graphic>
+                  <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../res/icons/icon_map_pinpoint_white.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
                 </Button>
-                <Button fx:id="btn_CalculateEntire" onAction="#onCalculateEntireButtonClick" prefHeight="10.0"
-                        prefWidth="225.0" text="Calculate Entire">
+                <Button fx:id="btn_CalculateEntire" onAction="#onCalculateEntireButtonClick" prefHeight="10.0" prefWidth="225.0" text="Calculate Entire">
                     <VBox.margin>
-                        <Insets top="10.0"/>
+                        <Insets top="10.0" />
                     </VBox.margin>
+               <graphic>
+                  <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../res/icons/icon_distance_white.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
                 </Button>
-                <Button fx:id="btn_Enter" onAction="#onEnterButtonClick" prefHeight="10.0" prefWidth="225.0"
-                        text="Enter">
+                <Button fx:id="btn_Enter" onAction="#onEnterButtonClick" prefHeight="10.0" prefWidth="225.0" text="Enter">
                     <VBox.margin>
-                        <Insets top="15.0"/>
+                        <Insets top="15.0" />
                     </VBox.margin>
+               <graphic>
+                  <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../res/icons/icon_add_white.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
                 </Button>
-                <Button fx:id="btn_Remove" onAction="#onRemoveButtonClick" prefHeight="10.0" prefWidth="225.0"
-                        text="Remove">
+                <Button fx:id="btn_Remove" onAction="#onRemoveButtonClick" prefHeight="10.0" prefWidth="225.0" text="Remove">
                     <VBox.margin>
-                        <Insets top="10.0"/>
+                        <Insets top="10.0" />
                     </VBox.margin>
+               <graphic>
+                  <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../res/icons/icon_remove_white.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
                 </Button>
-                <Button fx:id="btn_View" onAction="#onViewButtonClick" prefHeight="10.0" prefWidth="225.0"
-                        text="View">
+                <Button fx:id="btn_View" onAction="#onViewButtonClick" prefHeight="10.0" prefWidth="225.0" text="View">
                     <VBox.margin>
-                        <Insets top="10.0"/>
+                        <Insets top="10.0" />
                     </VBox.margin>
+               <graphic>
+                  <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../res/icons/icon_view_white.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
                 </Button>
-                <CheckBox fx:id="cb_BackHome" mnemonicParsing="false" prefHeight="18.0" prefWidth="91.0"
-                          text="Back Home" textFill="WHITE">
+                <CheckBox fx:id="cb_BackHome" mnemonicParsing="false" prefHeight="18.0" prefWidth="91.0" selected="true" text="Back Home" textFill="WHITE">
                     <VBox.margin>
-                        <Insets top="10.0"/>
+                        <Insets top="10.0" />
                     </VBox.margin>
                 </CheckBox>
-                <ProgressBar fx:id="pb_status" prefHeight="25.0" prefWidth="225.0" progress="0.0">
-                    <VBox.margin>
-                        <Insets bottom="15.0" top="25.0"/>
-                    </VBox.margin>
-                </ProgressBar>
             </VBox>
         </VBox>
+        <VBox prefHeight="420.0" prefWidth="707.0">
+            <TableView fx:id="gpsTable" prefHeight="331.0" prefWidth="631.0">
+                <columns>
+                    <TableColumn fx:id="nameCol" prefWidth="271.20001220703125" text="Name" />
+                    <TableColumn minWidth="0.0" prefWidth="100.0" text="X" fx:id="xCol" />
+                    <TableColumn fx:id="yCol" minWidth="0.0" prefWidth="100.0" text="Y" />
+                    <TableColumn fx:id="zCol" minWidth="0.0" prefWidth="100.0" text="Z" />
+                    <TableColumn fx:id="colorCol" prefWidth="107.20001220703125" text="Color" />
+                </columns>
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                </columnResizePolicy>
+                <VBox.margin>
+                    <Insets top="25.0" />
+                </VBox.margin>
+            </TableView>
+            <HBox alignment="CENTER" prefHeight="53.0" prefWidth="470.0" />
+        </VBox>
+      <padding>
+         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+      </padding>
     </HBox>
+   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+      <children>
+             <ProgressBar fx:id="pb_status" prefHeight="12.0" prefWidth="200.0" progress="0.0">
+            <HBox.margin>
+               <Insets right="10.0" />
+            </HBox.margin>
+             </ProgressBar>
+            <TextField fx:id="tf_GPS" prefHeight="30.0" prefWidth="500.0" promptText="Write GPS">
+            <HBox.margin>
+               <Insets left="10.0" />
+            </HBox.margin>
+            </TextField>
+      </children>
+      <VBox.margin>
+         <Insets bottom="15.0" top="-10.0" />
+      </VBox.margin>
+   </HBox>
 </VBox>

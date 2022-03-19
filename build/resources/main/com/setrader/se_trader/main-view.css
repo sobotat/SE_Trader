@@ -3,8 +3,24 @@
 }
 
 .button{
-    -fx-background-color: #5b5b5b;
+    -fx-background-color: #1F1F1F;
     -fx-text-fill : "white";
+    -fx-background-radius : 20;
+}
+
+.check-box .box{
+    -fx-background-color: white;
+}
+
+.check-box:selected .mark {
+
+-fx-background-color: white;
+
+}
+
+.check-box:selected .box {
+
+-fx-background-color: #96c8ff;
 }
 
 .table-column{
@@ -19,9 +35,22 @@
 
 .table-view{
     -fx-background-color: #1F1F1F;
+    -fx-background-radius : 20;
 }
 
 .text-field{
     -fx-text-fill : "white";
     -fx-background-color: #1F1F1F;
+    -fx-background-radius : 20;
+}
+
+.progress-bar > .track {
+  -fx-text-box-border:  #2F2F2F;
+  -fx-control-inner-background:  #2F2F2F;
+}
+
+.progress-bar .bar {
+    -fx-padding: 1px;
+    -fx-background-insets: 0;
+    -fx-background-color: #96c8ff;
 }
