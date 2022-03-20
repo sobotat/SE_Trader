@@ -49,9 +49,10 @@ public class Route {
         //int index: route.gpsIndex
         for (int i = 0; i < route.gpsIndex.size(); i++){
             GPS gps = gpsArr.get(route.gpsIndex.get(i));
-            gps.setColor("#FFBB00");
-            gps.setName( String.format("%02d %s", i, gps.getName().replaceAll("\\d","").trim()));
-            routeGPS.add(gps);
+            GPS gpsRoute = GPS.makeFromString(gps.toString());
+            gpsRoute.setColor("#FFBB00");
+            gpsRoute.setName( String.format("%02d %s", i, gpsRoute.getName().replaceAll("\\d","").trim()));
+            routeGPS.add(gpsRoute);
         }
 
         try {

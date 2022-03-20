@@ -1,55 +1,124 @@
 package com.setrader.se_trader;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.Objects;
 
 public class Controller {
 
     @FXML
     public TextField tf_GPS;
     @FXML
-    TableView<GPS> gpsTable;
-    @FXML
     TableColumn<GPS, String> nameCol, xCol, yCol, zCol, colorCol;
     @FXML
-    Button btn_Load, btn_Save, btn_View, btn_Enter, btn_Remove, btn_CalculateNext, btn_CalculateEntire;
+    Text tv_viewButton;
     @FXML
     CheckBox cb_BackHome;
+    @FXML
+    VBox vBox_List;
     @FXML
     public ProgressBar pb_status;
 
     public static LinkedList<Integer> shortestRoutesIndexes = new LinkedList<>();
     public static int shortestRouteDone = 0;
     static boolean viewRoute = false;
+    static int selectedGPSItem = -1;
 
-    @FXML
+    public void loadGPSList(String fileName){
+        LinkedList<GPS> arr = null;
+
+        try {
+            if (fileName.equals("route.txt")) {
+                Main.routesArr = Files.readGPS(fileName);
+                arr = Main.routesArr;
+            }else{
+                if (Main.gpsArr.isEmpty())
+                    Main.gpsArr = Files.readGPS(fileName);
+
+                arr = Main.gpsArr;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        assert arr != null;
+
+        vBox_List.getChildren().clear();
+        Node[] nodes = new Node[arr.size()];
+
+        try {
+            for (int i = 0; i < nodes.length; i++){
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(Main.class.getResource("item-gps.fxml"));
+                nodes[i] = fxmlLoader.load();
+
+                final int h = i;
+                ItemGPSController gpsController = fxmlLoader.getController();
+                gpsController.setItem(arr.get(i));
+
+                nodes[i].setOnMouseEntered(event -> {
+                    if (selectedGPSItem != h)
+                        nodes[h].setStyle("-fx-background-color: #2F2F2F");
+                });
+                nodes[i].setOnMouseExited(event -> {
+                    if (selectedGPSItem != h)
+                        nodes[h].setStyle("-fx-background-color: #1F1F1F");
+                });
+                nodes[i].setOnMouseClicked(event -> {
+                    if (selectedGPSItem != h) {
+                        nodes[h].setStyle("-fx-background-color: #5F5F5F");
+                        selectedGPSItem = h;
+
+                        for (Node n: nodes) {
+                            if (n != null && n != nodes[h]){
+                              n.setStyle("-fx-background-color: #1F1F1F");
+                            }
+                        }
+
+                    }else{
+                        nodes[h].setStyle("-fx-background-color: #1F1F1F");
+                        selectedGPSItem = -1;
+                    }
+                });
+                vBox_List.getChildren().add(nodes[i]);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
     public void onSaveButtonClick() throws IOException {
         Files.writeGPS( "gps.txt",Main.gpsArr);
     }
 
     public void onLoadButtonClick() throws IOException {
         viewRoute = false;
-        btn_View.setText("View Route");
+        tv_viewButton.setText("View Route");
         Main.gpsArr = Files.readGPS("gps.txt");
-        loadTable("gps.txt");
+        //loadTable("gps.txt");
+        loadGPSList("gps.txt");
     }
 
     public void onEnterButtonClick(){
         Main.gpsArr.add(GPS.makeFromString(tf_GPS.getText()));
-        gpsTable.getItems().add(Main.gpsArr.getLast());
+
+        viewRoute = false;
+        loadGPSList("gps.txt");
     }
 
     public void onRemoveButtonClick(){
         try{
-            int index = Main.gpsArr.indexOf(gpsTable.getSelectionModel().getSelectedItem());
-
-            //int index = Integer.parseInt(tf_GPS.getText()) - 1;
-            Main.gpsArr.remove(index);
-            gpsTable.getItems().remove(index);
+            Main.gpsArr.remove(selectedGPSItem);
+            vBox_List.getChildren().remove(selectedGPSItem);
         }catch (NumberFormatException e){
             System.err.println("Error Remove: Wrong Input");
         }catch (IndexOutOfBoundsException e){
@@ -196,12 +265,14 @@ public class Controller {
     public void onViewButtonClick() throws IOException {
         if (!viewRoute) {
             viewRoute = true;
-            btn_View.setText("View GPS");
-            loadTable("route.txt");
+            tv_viewButton.setText("View GPS");
+            //loadTable("route.txt");
+            loadGPSList("route.txt");
         }else{
             viewRoute = false;
-            btn_View.setText("View Route");
-            loadTable("gps.txt");
+            tv_viewButton.setText("View Route");
+            //loadTable("gps.txt");
+            loadGPSList("gps.txt");
         }
     }
 
@@ -211,36 +282,6 @@ public class Controller {
                 return true;
         }
         return false;
-    }
-
-    // Loads data from gps.txt to table and arr
-    public void loadTable(String fileName) throws IOException {
-        LinkedList<GPS> arr;
-
-        if (fileName.equals("route.txt")) {
-            Main.routesArr = Files.readGPS(fileName);
-            arr = Main.routesArr;
-        }else{
-            if (Main.gpsArr.isEmpty())
-                Main.gpsArr = Files.readGPS(fileName);
-
-            arr = Main.gpsArr;
-        }
-
-        try{
-            nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
-            xCol.setCellValueFactory(new PropertyValueFactory<>("strX"));
-            yCol.setCellValueFactory(new PropertyValueFactory<>("strY"));
-            zCol.setCellValueFactory(new PropertyValueFactory<>("strZ"));
-            colorCol.setCellValueFactory(new PropertyValueFactory<>("color"));
-
-            gpsTable.getItems().clear();
-            for (GPS item : arr){
-                gpsTable.getItems().add(item);
-            }
-        }catch (Exception e){
-            System.err.println(e.getMessage());
-        }
     }
 }
 

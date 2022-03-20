@@ -8,7 +8,7 @@ An app that makes it easy for you to choose a trading route. Filter different ty
 
 ### ScreenShots
 
-![v1.1](src/main/resources/art/se_trader_1.1.png)
+![v1.1.1](src/main/resources/art/se_trader_1.1.1.png)
 
 ---
 ### How to use
@@ -34,20 +34,22 @@ An app that makes it easy for you to choose a trading route. Filter different ty
 <summary>Show</summary>
 
     - v0.0
-        - Working load and save of GPS
-        - Distance to other GPS
-        - Closest GPS
-        - Load GPS on startup
-
+      - Working load and save of GPS
+      - Distance to other GPS
+      - Closest GPS
+      - Load GPS on startup
     - v1.0
-        - Working finding shortest Route
-            - By Distance
-            - By Jump
-        - Added option to go back to home
+      - Working finding shortest Route
+         - By Distance
+         - By Jump
+      - Added option to go back to home
     - v1.1
-        - Design OverHaul
-        - Fixed threats run after cloasing application
-        - Added new Icon
-        - Added GPS autosave after cloasing application
+      - Design OverHaul
+      - Fixed threats run after cloasing application
+      - Added new Icon
+      - Added GPS autosave after cloasing application
+    - v1.1.1
+      - Improve Buttons design
+      - Added Reworked Table
 
 </details>

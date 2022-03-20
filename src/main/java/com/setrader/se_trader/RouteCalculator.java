@@ -188,6 +188,9 @@ public class RouteCalculator {
 
             routeCalculateByShortestJump( currentRoute, gpsArr);
         }else{
+            if (Main.controller.cb_BackHome.isSelected())
+                route.gpsIndex.add(0);
+
             route.distance = RouteCalculator.routeDistance(route);
             Route.write(route, Main.gpsArr);
 
