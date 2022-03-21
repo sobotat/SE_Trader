@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
@@ -19,9 +20,9 @@ public class Controller {
     @FXML
     Text tv_viewButton;
     @FXML
-    CheckBox cb_BackHome;
-    @FXML
     VBox vBox_List;
+    @FXML
+    HBox hBox_backHome;
     @FXML
     public ProgressBar pb_status;
 
@@ -29,9 +30,10 @@ public class Controller {
     public static int shortestRouteDone = 0;
     static boolean viewRoute = false;
     static boolean timerEnd = true;
+    static boolean backHome = true;
     static int selectedGPSItem = -1;
 
-    public void loadGPSList(String fileName){
+    public void loadGPSList(String fileName, boolean firstLoad){
         LinkedList<GPS> arr = null;
 
         try {
@@ -39,7 +41,7 @@ public class Controller {
                 Main.routesArr = Files.readGPS(fileName);
                 arr = Main.routesArr;
             }else{
-                if (Main.gpsArr.isEmpty())
+                if (firstLoad)
                     Main.gpsArr = Files.readGPS(fileName);
 
                 arr = Main.gpsArr;
@@ -95,6 +97,16 @@ public class Controller {
 
     }
 
+    public void onBackHomeButtonClick() {
+        if (backHome) {
+            hBox_backHome.setStyle("-fx-background-color: #1F1F1F; -fx-background-radius: 20;");
+            backHome = false;
+        }else {
+            hBox_backHome.setStyle("-fx-background-color: #96c8ff; -fx-background-radius: 20;");
+            backHome = true;
+        }
+    }
+
     public void onSaveButtonClick() throws IOException {
         Files.writeGPS( "gps.txt",Main.gpsArr);
     }
@@ -103,7 +115,7 @@ public class Controller {
         viewRoute = false;
         tv_viewButton.setText("View Route");
         Main.gpsArr = Files.readGPS("gps.txt");
-        loadGPSList("gps.txt");
+        loadGPSList("gps.txt", false);
     }
 
     public void onEnterButtonClick() {
@@ -116,28 +128,29 @@ public class Controller {
             Main.gpsArr.add(GPS.makeFromString(text));
 
             viewRoute = false;
-            loadGPSList("gps.txt");
+            loadGPSList("gps.txt", false);
         }else{
             //tv_viewButton.setText("This is not GPS");
             System.err.println("EnterButton: Wrong GPS Input: \t" + text);
         }
     }
 
-    public void onRemoveButtonClick(){
-        try{
-            Main.gpsArr.remove(selectedGPSItem);
-            vBox_List.getChildren().remove(selectedGPSItem);
-        }catch (NumberFormatException e){
-            System.err.println("Error Remove: Wrong Input");
-        }catch (IndexOutOfBoundsException e){
-            System.err.println("Error Remove: Index is too large\n" + e.getMessage());
+    public void onCopyAllButtonClick(){
+        StringBuilder allGPS = new StringBuilder();
+        LinkedList<GPS> arr = viewRoute ? Main.routesArr : Main.gpsArr;
+
+        for (GPS gps: arr) {
+            allGPS.append(gps.toString());
+            allGPS.append("\n");
         }
+        tf_GPS.clear();
+        tf_GPS.setText("All GPS are in Clipboard");
+        Api.writeTextToClipboard(allGPS.toString());
     }
 
 
 
     public void onCalculateEntireButtonClick(){
-        boolean backHome = cb_BackHome.isSelected();
         Runnable runCalculate = () -> {
             if (!Main.gpsArr.isEmpty()) {
                 pb_status.setVisible(true);
@@ -170,9 +183,9 @@ public class Controller {
                     pb_status.setProgress(p);
 
                     if (timerEnd){
-                    //if (p * 100 %1 == 0){
                         System.out.printf("%.2f%c\n", (p * 100), '%');
                         String s = RouteCalculator.numOfDoneRoutes + " / " + RouteCalculator.numOfCombination;
+                        tf_GPS.clear();
                         Main.controller.tf_GPS.setText(s);
 
                         timerEnd = false;
@@ -222,6 +235,7 @@ public class Controller {
                         //if ((progress * 100) %1 == 0){
                         System.out.printf("%.2f%c\n", (progress * 100), '%');
                         String s = shortestRouteDone + " / " + size;
+                        tf_GPS.clear();
                         tf_GPS.setText(s);
 
                         timerEnd = false;
@@ -250,7 +264,11 @@ public class Controller {
                 System.out.println(shortestRoute.toStringDist());
 
                 Route.write(shortestRoute, Main.gpsArr);
+
                 tf_GPS.setText("Distance of route is " + Math.round(shortestRoute.distance));
+
+
+
                 pb_status.setProgress(1);
             }
         };
@@ -258,7 +276,13 @@ public class Controller {
         Thread threadCalculate = new Thread( runCalculate, "CalculateThread");
         threadCalculate.setDaemon(true);
         threadCalculate.start();
-        pb_status.setProgress(1);
+
+        do {
+            if (!threadCalculate.isAlive()){
+                viewRoute = true;
+                loadGPSList("route.txt", false);
+            }
+        } while (threadCalculate.isAlive());
     }
 
     public void onCalculateNextButtonClick(){
@@ -283,6 +307,8 @@ public class Controller {
 
                 pb_status.setProgress(0.95);
                 tf_GPS.setText("Distance of route is " + Math.round(RouteCalculator.route.distance));
+
+
             }
             pb_status.setProgress(1);
         };
@@ -290,17 +316,24 @@ public class Controller {
         Thread threadCalculate = new Thread( runCalculate, "CalculateThread");
         threadCalculate.setDaemon(true);
         threadCalculate.start();
+
+        do {
+            if (!threadCalculate.isAlive()){
+                viewRoute = true;
+                loadGPSList("route.txt", false);
+            }
+        } while (threadCalculate.isAlive());
     }
 
     public void onViewButtonClick(){
         if (!viewRoute) {
             viewRoute = true;
             tv_viewButton.setText("View GPS");
-            loadGPSList("route.txt");
+            loadGPSList("route.txt", false);
         }else{
             viewRoute = false;
             tv_viewButton.setText("View Route");
-            loadGPSList("gps.txt");
+            loadGPSList("gps.txt", false);
         }
     }
 

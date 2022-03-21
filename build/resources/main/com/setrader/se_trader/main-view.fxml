@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TextField?>
@@ -11,23 +10,25 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<VBox prefHeight="440.0" prefWidth="900.0" spacing="20.0" stylesheets="@main-view.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.setrader.se_trader.Controller">
-    <HBox prefHeight="385.0" prefWidth="795.0" style="-fx-background-color: #2F2F2F;">
-        <VBox prefHeight="410.0" prefWidth="332.0">
+<VBox prefHeight="500.0" prefWidth="900.0" spacing="20.0" stylesheets="@main-view.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.setrader.se_trader.Controller">
+    <HBox prefHeight="500.0" prefWidth="900.0" style="-fx-background-color: #2F2F2F;">
+        <VBox prefHeight="500.0" prefWidth="490.0">
             <VBox alignment="BOTTOM_CENTER" prefHeight="410.0" prefWidth="222.0">
                 <VBox.margin>
                     <Insets left="15.0" right="25.0" />
                 </VBox.margin>
-                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                    <ImageView fitHeight="48.0" fitWidth="462.0" pickOnBounds="true" preserveRatio="true">
-                        <Image url="@../../../res/se_logo.png" />
-                        <HBox.margin>
-                            <Insets right="15.0" />
-                        </HBox.margin>
-                    </ImageView>
-                    <ImageView fitHeight="48.0" fitWidth="462.0" pickOnBounds="true" preserveRatio="true">
+                <HBox alignment="CENTER" prefHeight="125.0" prefWidth="222.0">
+                    <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                         <Image url="@../../../res/se_trader_logo.png" />
                     </ImageView>
+               <ImageView fitHeight="33.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../../../res/se_logo.png" />
+                  </image>
+                  <HBox.margin>
+                     <Insets left="8.0" />
+                  </HBox.margin>
+               </ImageView>
                 </HBox>
                 <VBox alignment="CENTER" maxWidth="-Infinity" prefHeight="283.0" prefWidth="188.0">
                     <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" onMouseClicked="#onLoadButtonClick" prefHeight="35.0" prefWidth="165.0" style="-fx-background-color: #1F1F1F; -fx-background-radius: 20;">
@@ -64,7 +65,7 @@
                     </HBox>
                     <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" onMouseClicked="#onCalculateNextButtonClick" prefHeight="35.0" prefWidth="165.0" style="-fx-background-color: #1F1F1F; -fx-background-radius: 20;">
                         <VBox.margin>
-                            <Insets top="8.0" />
+                            <Insets top="18.0" />
                         </VBox.margin>
                         <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                             <HBox.margin>
@@ -72,7 +73,7 @@
                             </HBox.margin>
                             <Image url="@../../../res/icons/icon_map_pinpoint_white.png" />
                         </ImageView>
-                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Calculate to Next">
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Calculate By Next">
                             <HBox.margin>
                                 <Insets left="10.0" />
                             </HBox.margin>
@@ -88,7 +89,23 @@
                             </HBox.margin>
                             <Image url="@../../../res/icons/icon_distance_white.png" />
                         </ImageView>
-                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Calculate Entire">
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Calculate By Dist">
+                            <HBox.margin>
+                                <Insets left="10.0" />
+                            </HBox.margin>
+                        </Text>
+                    </HBox>
+                    <HBox fx:id="hBox_backHome" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" onMouseClicked="#onBackHomeButtonClick" prefHeight="35.0" prefWidth="165.0" style="-fx-background-color: #96c8ff; -fx-background-radius: 20;">
+                        <VBox.margin>
+                            <Insets top="8.0" />
+                        </VBox.margin>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                            <HBox.margin>
+                                <Insets left="25.0" />
+                            </HBox.margin>
+                            <Image url="@../../../res/icons/icon_cross_white.png" />
+                        </ImageView>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Back Home">
                             <HBox.margin>
                                 <Insets left="10.0" />
                             </HBox.margin>
@@ -96,7 +113,7 @@
                     </HBox>
                     <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" onMouseClicked="#onEnterButtonClick" prefHeight="35.0" prefWidth="165.0" style="-fx-background-color: #1F1F1F; -fx-background-radius: 20;">
                         <VBox.margin>
-                            <Insets top="8.0" />
+                            <Insets top="18.0" />
                         </VBox.margin>
                         <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                             <HBox.margin>
@@ -104,13 +121,13 @@
                             </HBox.margin>
                             <Image url="@../../../res/icons/icon_add_white.png" />
                         </ImageView>
-                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter">
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="From Clipboard">
                             <HBox.margin>
                                 <Insets left="10.0" />
                             </HBox.margin>
                         </Text>
                     </HBox>
-                    <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" onMouseClicked="#onRemoveButtonClick" prefHeight="35.0" prefWidth="165.0" style="-fx-background-color: #1F1F1F; -fx-background-radius: 20;">
+                    <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" onMouseClicked="#onCopyAllButtonClick" prefHeight="35.0" prefWidth="165.0" style="-fx-background-color: #1F1F1F; -fx-background-radius: 20;">
                         <VBox.margin>
                             <Insets top="8.0" />
                         </VBox.margin>
@@ -118,9 +135,9 @@
                             <HBox.margin>
                                 <Insets left="25.0" />
                             </HBox.margin>
-                            <Image url="@../../../res/icons/icon_remove_white.png" />
+                            <Image url="@../../../res/icons/icon_copy_white.png" />
                         </ImageView>
-                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Remove">
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="All To Clipboard">
                             <HBox.margin>
                                 <Insets left="10.0" />
                             </HBox.margin>
@@ -143,28 +160,19 @@
                         </Text>
                     </HBox>
                 </VBox>
-                <CheckBox fx:id="cb_BackHome" mnemonicParsing="false" prefHeight="18.0" prefWidth="91.0" selected="true" text="Back Home" textFill="WHITE">
-                    <VBox.margin>
-                        <Insets top="10.0" />
-                    </VBox.margin>
-                </CheckBox>
             </VBox>
         </VBox>
-      <VBox alignment="CENTER" prefHeight="331.0" prefWidth="874.0" style="-fx-background-color: #1F1F1F; -fx-background-radius: 20;">
-         <children>
+        <VBox alignment="CENTER" prefHeight="331.0" prefWidth="874.0" style="-fx-background-color: #1F1F1F; -fx-background-radius: 20;">
+            <HBox.margin>
+                <Insets />
+            </HBox.margin>
+            <padding>
+                <Insets bottom="20.0" top="20.0" />
+            </padding>
             <ScrollPane hbarPolicy="NEVER" maxWidth="-Infinity" prefHeight="600.0" prefWidth="615.0">
-               <content>
-                  <VBox fx:id="vBox_List" alignment="TOP_CENTER" prefHeight="290.0" prefWidth="600.0" style="-fx-background-color: #1F1F1F;" />
-               </content>
+                <VBox fx:id="vBox_List" alignment="TOP_CENTER" prefHeight="380.0" prefWidth="600.0" style="-fx-background-color: #1F1F1F;" />
             </ScrollPane>
-         </children>
-         <HBox.margin>
-            <Insets />
-         </HBox.margin>
-         <padding>
-            <Insets bottom="20.0" top="20.0" />
-         </padding>
-      </VBox>
+        </VBox>
       <padding>
          <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
       </padding>
@@ -183,5 +191,11 @@
             <Insets left="10.0" />
         </HBox.margin>
         </TextField>
+        <ImageView fitHeight="20.0" fitWidth="20.0" onMouseClicked="#onEnterButtonClick" pickOnBounds="true" preserveRatio="true">
+            <HBox.margin>
+                <Insets left="8.0" />
+            </HBox.margin>
+            <Image url="@../../../res/icons/icon_add_white.png" />
+        </ImageView>
     </HBox>
 </VBox>

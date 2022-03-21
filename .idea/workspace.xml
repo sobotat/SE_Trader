@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1f9edf2c-0f7a-4186-b8a8-6d66f361729a" name="Changes" comment="1.1.1 - Reworked Table">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/art/se_trader_1.1.2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/res/icons/icon_copy_white.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/res/icons/icon_cross_white.png" afterDir="false" />
+    <list default="true" id="1f9edf2c-0f7a-4186-b8a8-6d66f361729a" name="Changes" comment="1.1.3">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/art/se_trader_1.1.3.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.3.3/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.3.3/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.3.3/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.3.3/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.3.3/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.3.3/fileHashes/fileHashes.bin" afterDir="false" />
@@ -19,28 +17,20 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/setrader/se_trader/Api.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/setrader/se_trader/Api.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/setrader/se_trader/Controller.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/setrader/se_trader/Controller.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/setrader/se_trader/GPS.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/setrader/se_trader/GPS.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/setrader/se_trader/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/setrader/se_trader/Main.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/setrader/se_trader/MyRunnable.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/setrader/se_trader/MyRunnable.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/setrader/se_trader/Route.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/setrader/se_trader/Route.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/setrader/se_trader/RouteCalculator.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/setrader/se_trader/RouteCalculator.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/classes/java/main/module-info.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/module-info.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/image/lib/modules" beforeDir="false" afterPath="$PROJECT_DIR$/build/image/lib/modules" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/jlinkbase/tmpmodinfo/module-info.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/jlinkbase/tmpmodinfo/module-info.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/jpackage/SE_Trader/app/.jpackage.xml" beforeDir="false" afterPath="$PROJECT_DIR$/build/jpackage/SE_Trader/app/.jpackage.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/jpackage/SE_Trader/app/SE_Trader.cfg" beforeDir="false" afterPath="$PROJECT_DIR$/build/jpackage/SE_Trader/app/SE_Trader.cfg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/jpackage/SE_Trader/runtime/lib/modules" beforeDir="false" afterPath="$PROJECT_DIR$/build/jpackage/SE_Trader/runtime/lib/modules" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build/resources/main/com/setrader/se_trader/main-view.css" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/com/setrader/se_trader/main-view.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/resources/main/com/setrader/se_trader/main-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/com/setrader/se_trader/main-view.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/setrader/se_trader/Api.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/setrader/se_trader/Api.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/setrader/se_trader/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/setrader/se_trader/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/setrader/se_trader/GPS.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/setrader/se_trader/GPS.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/setrader/se_trader/ItemGPSController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/setrader/se_trader/ItemGPSController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/setrader/se_trader/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/setrader/se_trader/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/setrader/se_trader/RouteCalculator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/setrader/se_trader/RouteCalculator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/art/se_trader_1.1.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/setrader/se_trader/item-gps.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/setrader/se_trader/item-gps.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/setrader/se_trader/main-view.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/setrader/se_trader/main-view.fxml" afterDir="false" />
     </list>
@@ -149,7 +139,7 @@
       <recent name="com.setrader.se_trader" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.SE Trader [jpackage]">
+  <component name="RunManager" selected="Gradle.SE Trader [run]">
     <configuration name="SE Trader [jpackage]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -194,8 +184,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.SE Trader [jpackage]" />
         <item itemvalue="Gradle.SE Trader [run]" />
+        <item itemvalue="Gradle.SE Trader [jpackage]" />
       </list>
     </recent_temporary>
   </component>
@@ -253,7 +243,14 @@
       <option name="project" value="LOCAL" />
       <updated>1647791324343</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="1.1.2">
+      <created>1647851706112</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1647851706113</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -272,6 +269,8 @@
     <MESSAGE value="1.0" />
     <MESSAGE value="1.1 - Design OverHaul" />
     <MESSAGE value="1.1.1 - Reworked Table" />
-    <option name="LAST_COMMIT_MESSAGE" value="1.1.1 - Reworked Table" />
+    <MESSAGE value="1.1.2" />
+    <MESSAGE value="1.1.3" />
+    <option name="LAST_COMMIT_MESSAGE" value="1.1.3" />
   </component>
 </project>

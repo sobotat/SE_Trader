@@ -10,8 +10,6 @@ public class RouteCalculator {
     private static Double[][] distM = null;
     public static long numOfCombination = 0;
     public static long numOfDoneRoutes = 0;
-    public static int sizeOfRoutesArr = 0;
-    public static int indexMinDistRoute = -1;
 
     public static void distMatrix(LinkedList<GPS> gpsArr){
         distM = new Double[gpsArr.size()][gpsArr.size()];
@@ -25,7 +23,7 @@ public class RouteCalculator {
             }
         }
     }
-
+    /*
     public void routeX(Integer[] arrIndex, Integer[] arrRoute, boolean backHome){
         Integer[] arrIndexOrg = arrIndex;
         int size = Main.gpsArr.size();
@@ -76,7 +74,7 @@ public class RouteCalculator {
             arrRoute[0] = 0;
 
             numOfDoneRoutes++;
-        }
+        }*/
         /*
         while (numOfDoneRoutes != numOfCombination){
             int size = arrIndex.length;
@@ -124,29 +122,27 @@ public class RouteCalculator {
                 numOfDoneRoutes++;
             }
         }*/
-    }
+
 
     public void routeCalculateByShortestDist( Integer[] arrIndex, Integer[] arrRoute, boolean backHome){
         int size = arrIndex.length;
         if (size > 0){
-            for (int i = 0; i < size; i++){
+            for (Integer index : arrIndex) {
 
                 int indexNew = 0;
                 Integer[] arrIndexNew = new Integer[arrIndex.length - 1];
                 for (int num : arrIndex) {
-                    if (arrIndex[i] != num) {
+                    if (index != num) {
                         arrIndexNew[indexNew] = num;
                         indexNew++;
                     }
                 }
 
                 Integer[] arrRouteNew = new Integer[arrRoute.length + 1];
-                for (int n = 0; n < arrRoute.length; n++){
-                    arrRouteNew[n] = arrRoute[n];
-                }
+                System.arraycopy(arrRoute, 0, arrRouteNew, 0, arrRoute.length);
 
-                arrRouteNew[arrRouteNew.length - 1] = arrIndex[i];
-                routeCalculateByShortestDist( arrIndexNew, arrRouteNew, backHome);
+                arrRouteNew[arrRouteNew.length - 1] = index;
+                routeCalculateByShortestDist(arrIndexNew, arrRouteNew, backHome);
             }
         }else{
             Route r = new Route();
@@ -188,7 +184,7 @@ public class RouteCalculator {
 
             routeCalculateByShortestJump( currentRoute, gpsArr);
         }else{
-            if (Main.controller.cb_BackHome.isSelected())
+            if (Controller.backHome)
                 route.gpsIndex.add(0);
 
             route.distance = RouteCalculator.routeDistance(route);

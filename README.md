@@ -8,7 +8,7 @@ An app that makes it easy for you to choose a trading route. Filter different ty
 
 ### ScreenShots
 
-![v1.1.2](src/main/resources/art/se_trader_1.1.2.png)
+![ver](src/main/resources/art/se_trader_1.1.3.png)
 
 ---
 ### How to use
@@ -58,5 +58,15 @@ An app that makes it easy for you to choose a trading route. Filter different ty
       - Improve output from Calculate Entire route now outputing every 2 sec
       - Fixed Icon on header
       - Locked Resizing aplication
+    - v1.1.3
+      - Removed remove button
+      - Fixed remove button on the items
+      - Added Copy all to the clipboard
+      - Improve position of buttons
+      - Fixed bug with not able to clean list
+      - Added automatic show of route after calculating route
+      - Added enter button next to textfield
+      - Changed backHome checkbox
+      - Changed Enter button to From Clipboard
 
 </details>

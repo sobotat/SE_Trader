@@ -3,6 +3,7 @@ package com.setrader.se_trader;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
@@ -19,6 +20,8 @@ public class ItemGPSController implements Initializable {
     private Circle dot_color;
     @FXML
     private Text tv_itemName, tv_X, tv_Y, tv_Z;
+    @FXML
+    public HBox hbox_btn;
 
     public void setItem(GPS gps){
         tv_itemName.setText(gps.getName());
@@ -38,9 +41,10 @@ public class ItemGPSController implements Initializable {
             btn_remove.setOnMouseClicked(event -> {
                 Main.gpsArr.remove(gps);
                 Controller.viewRoute = false;
-                Main.controller.loadGPSList("gps.txt");
+                Main.controller.loadGPSList("gps.txt", false);
             });
         }else{
+            hbox_btn.getChildren().remove(1);
             btn_remove.setDisable(true);
         }
     }

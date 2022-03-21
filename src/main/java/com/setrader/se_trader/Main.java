@@ -23,7 +23,7 @@ public class Main extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("main-view.fxml"));
 
-        Scene scene = new Scene(fxmlLoader.load(), 900, 440);
+        Scene scene = new Scene(fxmlLoader.load(), 900, 500);
         String css = Objects.requireNonNull(this.getClass().getResource("main-view.css")).toExternalForm();
         scene.getStylesheets().add(css);
 
@@ -39,7 +39,7 @@ public class Main extends Application {
 
         // Loading GPS from file to Arr and Table
         controller.pb_status.setVisible(false);
-        controller.loadGPSList("gps.txt");
+        controller.loadGPSList("gps.txt", true);
 
         stage.setOnCloseRequest(e -> {
             try {
