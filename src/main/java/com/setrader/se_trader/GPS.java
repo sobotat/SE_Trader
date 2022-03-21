@@ -92,6 +92,15 @@ public class GPS {
         return "GPS:" + name + ":" + strX + ":" + strY + ":" + strZ + ":" + color + ":";
     }
 
+    public static boolean isGPS(String gpsString){
+        try {
+            String[] gpsArgs = gpsString.split(":", -1);
+            return gpsArgs[0].equals("GPS");
+        }catch (Exception e){
+            return false;
+        }
+    }
+
     // Will return distance in meters, Arguments From, To
     public static Double distance(GPS gps1, GPS gps2){
         // Count difference between X, Y, Z

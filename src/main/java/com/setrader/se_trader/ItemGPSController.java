@@ -7,13 +7,14 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ItemGPSController implements Initializable {
 
     @FXML
-    private Button btn_copy;
+    private Button btn_copy, btn_remove;
     @FXML
     private Circle dot_color;
     @FXML
@@ -30,7 +31,18 @@ public class ItemGPSController implements Initializable {
 
         btn_copy.setOnMouseClicked(event -> {
             Main.controller.tf_GPS.setText(gps.toString());
+            Api.writeTextToClipboard(gps.toString());
         });
+        if (!Controller.viewRoute) {
+            btn_remove.setDisable(false);
+            btn_remove.setOnMouseClicked(event -> {
+                Main.gpsArr.remove(gps);
+                Controller.viewRoute = false;
+                Main.controller.loadGPSList("gps.txt");
+            });
+        }else{
+            btn_remove.setDisable(true);
+        }
     }
 
     @Override

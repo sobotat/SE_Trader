@@ -2,12 +2,15 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="580.0" style="-fx-background-color: #1f1f1f;" stylesheets="@main-view.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.setrader.se_trader.ItemGPSController">
-   <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="526.0">
+   <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="509.0">
       <Circle fx:id="dot_color" fill="#0084ff" radius="5.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0">
          <HBox.margin>
             <Insets left="15.0" right="15.0" />
@@ -15,34 +18,89 @@
       </Circle>
       <Text fx:id="tv_itemName" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="GPS Name" wrappingWidth="141.10864639282227" />
       <HBox alignment="CENTER" prefHeight="30.0" prefWidth="439.0">
-         <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="X: " />
-         <Text fx:id="tv_X" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="100000">
-            <HBox.margin>
-               <Insets />
-            </HBox.margin>
-         </Text>
-         <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Y: ">
-            <HBox.margin>
-               <Insets left="10.0" />
-            </HBox.margin>
-         </Text>
-         <Text fx:id="tv_Y" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="100000" />
-         <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Z: ">
-            <HBox.margin>
-               <Insets left="10.0" />
-            </HBox.margin>
-         </Text>
-         <Text fx:id="tv_Z" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="100000" />
+         <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="90.0">
+            <children>
+               <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="X: ">
+                  <font>
+                     <Font name="System Bold" size="12.0" />
+                  </font>
+                  <HBox.margin>
+                     <Insets />
+                  </HBox.margin>
+               </Text>
+               <Text fx:id="tv_X" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="100000">
+                  <HBox.margin>
+                     <Insets />
+                  </HBox.margin>
+               </Text>
+            </children>
+         </HBox>
+         <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="90.0">
+            <children>
+               <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Y: ">
+                  <HBox.margin>
+                     <Insets />
+                  </HBox.margin>
+                  <font>
+                     <Font name="System Bold" size="12.0" />
+                  </font>
+               </Text>
+               <Text fx:id="tv_Y" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="100000">
+                  <HBox.margin>
+                     <Insets />
+                  </HBox.margin>
+               </Text>
+            </children>
+         </HBox>
+         <HBox alignment="CENTER_LEFT" prefHeight="30.0" prefWidth="90.0">
+            <children>
+               <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Z: ">
+                  <HBox.margin>
+                     <Insets />
+                  </HBox.margin>
+                  <font>
+                     <Font name="System Bold" size="12.0" />
+                  </font>
+               </Text>
+               <Text fx:id="tv_Z" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="100000">
+                  <HBox.margin>
+                     <Insets />
+                  </HBox.margin>
+               </Text>
+            </children>
+         </HBox>
       </HBox>
    </HBox>
-   <HBox alignment="CENTER_RIGHT" prefHeight="32.0" prefWidth="62.0">
-      <Button fx:id="btn_copy" mnemonicParsing="false" prefHeight="30.0" prefWidth="40.0" style="-fx-background-color: #2F2F2F;" text="Copy">
+   <HBox alignment="CENTER_RIGHT" prefHeight="32.0" prefWidth="92.0">
+      <Button fx:id="btn_copy" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: #2F2F2F;" text="Copy">
          <HBox.margin>
             <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
          </HBox.margin>
          <padding>
             <Insets bottom="2.0" left="5.0" right="5.0" top="2.0" />
          </padding>
+         <graphic>
+            <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../res/icons/icon_copy_white.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button fx:id="btn_remove" contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" style="-fx-background-color: #2F2F2F;" text="Remove">
+         <padding>
+            <Insets bottom="2.0" left="5.0" right="5.0" top="2.0" />
+         </padding>
+         <HBox.margin>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </HBox.margin>
+         <graphic>
+            <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../res/icons/icon_cross_white.png" />
+               </image>
+            </ImageView>
+         </graphic>
       </Button>
    </HBox>
 </HBox>

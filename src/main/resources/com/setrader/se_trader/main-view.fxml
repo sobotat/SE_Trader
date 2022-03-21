@@ -154,7 +154,7 @@
          <children>
             <ScrollPane hbarPolicy="NEVER" maxWidth="-Infinity" prefHeight="600.0" prefWidth="615.0">
                <content>
-                  <VBox fx:id="vBox_List" alignment="TOP_CENTER" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #1F1F1F;" />
+                  <VBox fx:id="vBox_List" alignment="TOP_CENTER" prefHeight="290.0" prefWidth="600.0" style="-fx-background-color: #1F1F1F;" />
                </content>
             </ScrollPane>
          </children>

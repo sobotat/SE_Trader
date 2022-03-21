@@ -4,20 +4,18 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.util.LinkedList;
-import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Controller {
 
     @FXML
     public TextField tf_GPS;
-    @FXML
-    TableColumn<GPS, String> nameCol, xCol, yCol, zCol, colorCol;
     @FXML
     Text tv_viewButton;
     @FXML
@@ -30,6 +28,7 @@ public class Controller {
     public static LinkedList<Integer> shortestRoutesIndexes = new LinkedList<>();
     public static int shortestRouteDone = 0;
     static boolean viewRoute = false;
+    static boolean timerEnd = true;
     static int selectedGPSItem = -1;
 
     public void loadGPSList(String fileName){
@@ -104,15 +103,24 @@ public class Controller {
         viewRoute = false;
         tv_viewButton.setText("View Route");
         Main.gpsArr = Files.readGPS("gps.txt");
-        //loadTable("gps.txt");
         loadGPSList("gps.txt");
     }
 
-    public void onEnterButtonClick(){
-        Main.gpsArr.add(GPS.makeFromString(tf_GPS.getText()));
+    public void onEnterButtonClick() {
+        String text = Api.getFromClipboard();
+        if (text.equals("") || !GPS.isGPS(text)) {
+            text = tf_GPS.getText();
+        }
 
-        viewRoute = false;
-        loadGPSList("gps.txt");
+        if (GPS.isGPS(text)){
+            Main.gpsArr.add(GPS.makeFromString(text));
+
+            viewRoute = false;
+            loadGPSList("gps.txt");
+        }else{
+            //tv_viewButton.setText("This is not GPS");
+            System.err.println("EnterButton: Wrong GPS Input: \t" + text);
+        }
     }
 
     public void onRemoveButtonClick(){
@@ -156,14 +164,25 @@ public class Controller {
                 Thread threadCalculateDist = new Thread(runCalculateDist, "ThreadCalculateDist");
                 threadCalculateDist.start();
 
+                Timer timer;
                 while (threadCalculateDist.isAlive()){
                     double p = (double) RouteCalculator.numOfDoneRoutes / (double) RouteCalculator.numOfCombination;
                     pb_status.setProgress(p);
 
-                    if (p * 100 %1 == 0){
-                        System.out.println(p * 100 + "%");
+                    if (timerEnd){
+                    //if (p * 100 %1 == 0){
+                        System.out.printf("%.2f%c\n", (p * 100), '%');
                         String s = RouteCalculator.numOfDoneRoutes + " / " + RouteCalculator.numOfCombination;
                         Main.controller.tf_GPS.setText(s);
+
+                        timerEnd = false;
+                        timer = new Timer(true);
+                        timer.schedule(new TimerTask() {
+                            @Override
+                            public void run() {
+                                timerEnd = true;
+                            }
+                        }, 2000);
                     }
                 }
 
@@ -191,17 +210,28 @@ public class Controller {
                 }
 
                 int size = Main.rArr.size();
+
+                timerEnd = true;
                 while (shortestRouteDone < size && shortestThreadsDone(threads)){
                     double progress = (double) shortestRouteDone / (double) size;
 
-                    if (pb_status.getProgress() != progress){
+                    if (timerEnd){
+                    //if (pb_status.getProgress() != progress){
                         pb_status.setProgress(progress);
 
-                        if ((progress * 100) %1 == 0){
-                            System.out.println((progress * 100) + "%");
-                            String s = shortestRouteDone + " / " + size;
-                            tf_GPS.setText(s);
-                        }
+                        //if ((progress * 100) %1 == 0){
+                        System.out.printf("%.2f%c\n", (progress * 100), '%');
+                        String s = shortestRouteDone + " / " + size;
+                        tf_GPS.setText(s);
+
+                        timerEnd = false;
+                        timer = new Timer(true);
+                        timer.schedule(new TimerTask() {
+                            @Override
+                            public void run() {
+                                timerEnd = true;
+                            }
+                        }, 2000);
                     }
                 }
                 System.out.println("Done\n");
@@ -262,16 +292,14 @@ public class Controller {
         threadCalculate.start();
     }
 
-    public void onViewButtonClick() throws IOException {
+    public void onViewButtonClick(){
         if (!viewRoute) {
             viewRoute = true;
             tv_viewButton.setText("View GPS");
-            //loadTable("route.txt");
             loadGPSList("route.txt");
         }else{
             viewRoute = false;
             tv_viewButton.setText("View Route");
-            //loadTable("gps.txt");
             loadGPSList("gps.txt");
         }
     }

@@ -6,7 +6,7 @@ plugins {
 }
 
 group 'com.setrader'
-version '1.1.1'
+version '1.1.2'
 
 repositories {
     mavenCentral()
@@ -53,7 +53,7 @@ jlink {
     options = ['--strip-debug','--compress', '2','--no-header-files','--no-man-pages']
 
     launcher {
-        name = 'SE_Trader'
+        name = 'SE Trader'
     }
     jpackage {
         // Set the environment property BADASS_JLINK_JPACKAGE_HOME or explicitly configure the below property

@@ -3,6 +3,7 @@ package com.setrader.se_trader;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -28,6 +29,9 @@ public class Main extends Application {
 
         stage.setTitle("SE Trader");
         stage.setScene(scene);
+        stage.getIcons().add(new Image("file:src/main/resources/res/se_trader_logo.png"));
+        stage.setResizable(false);
+        stage.setMaximized(false);
         stage.show();
 
         // Getting Controller
