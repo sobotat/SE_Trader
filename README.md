@@ -2,12 +2,19 @@
 
 Made for Space Engineers for easier travels
 
-An app that makes it easy for you to choose a trading route. Filter different types of stations.
+An app that makes it easy for you to choose a trading route. 
+
+
+* SE Trader have two modes how to help you
+  - **Better**: Will calculate every route and find for you the best one.
+  - **Fast**:   Will calculate the shortest jump from every GPS, like player in game.
+
+* Modern UI
+* Using Clipboard and format like in the game
 
 ---
 
-### ScreenShots
-
+### UI
 ![ver](src/main/resources/art/se_trader_1.1.4.png)
 
 ---
@@ -22,10 +29,18 @@ An app that makes it easy for you to choose a trading route. Filter different ty
 
 ---
 
-## Install
+### Install
 1. Download **exe** or **msi** file
 2. Install it and you are ready to use.
 3. GPS and Route File is located in **Documents\SE_Trader** folder
+
+---
+
+### Work to need to be done
+
+   - Add Settings
+   - Implement Log System
+   - Make App Better
 
 ---
 
@@ -76,6 +91,7 @@ An app that makes it easy for you to choose a trading route. Filter different ty
       - Fixed Calculate by Dist was returning wrong route
       - Improve design of wrong input from files
       - Change output timer to 0,5sec
+      - Fixed bug not reseting min distance
       
        
 

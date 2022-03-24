@@ -173,7 +173,6 @@ public class Controller {
                 Main.routesArr.clear();
 
                 RouteCalculator calculator = new RouteCalculator();
-                RouteCalculator.calculationStop = false;
                 RouteCalculator.numOfDoneRoutes = 0;
                 RouteCalculator.numOfCombination = Api.factorial(Main.gpsArr.size() - 1);
 
@@ -298,7 +297,6 @@ public class Controller {
         Runnable runCalculate = () -> {
             pb_status.setVisible(true);
             pb_status.setProgress(0);
-            RouteCalculator.calculationStop = false;
             // Initialization
 
             // Start route calculation

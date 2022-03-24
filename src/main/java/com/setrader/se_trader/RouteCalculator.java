@@ -14,7 +14,12 @@ public class RouteCalculator {
     public static int shortestRouteIndex = -1;
     public static int shortestRouteDone = 0;
     public static boolean calculationStop = false;
-
+    
+    public RouteCalculator(){
+        calculationStop = false;
+        currentMinDist = Double.MAX_VALUE;
+    }
+    
     public static void distMatrix(LinkedList<GPS> gpsArr){
         distM = new Double[gpsArr.size()][gpsArr.size()];
 
