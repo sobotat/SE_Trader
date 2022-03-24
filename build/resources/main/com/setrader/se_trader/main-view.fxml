@@ -21,14 +21,12 @@
                     <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
                         <Image url="@../../../res/se_trader_logo.png" />
                     </ImageView>
-               <ImageView fitHeight="33.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
-                  <image>
-                     <Image url="@../../../res/se_logo.png" />
-                  </image>
-                  <HBox.margin>
-                     <Insets left="8.0" />
-                  </HBox.margin>
-               </ImageView>
+                    <ImageView fitHeight="33.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
+                        <HBox.margin>
+                            <Insets left="8.0" />
+                        </HBox.margin>
+                        <Image url="@../../../res/se_logo.png" />
+                    </ImageView>
                 </HBox>
                 <VBox alignment="CENTER" maxWidth="-Infinity" prefHeight="283.0" prefWidth="188.0">
                     <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" onMouseClicked="#onLoadButtonClick" prefHeight="35.0" prefWidth="165.0" style="-fx-background-color: #1F1F1F; -fx-background-radius: 20;">
@@ -196,6 +194,13 @@
                 <Insets left="8.0" />
             </HBox.margin>
             <Image url="@../../../res/icons/icon_add_white.png" />
+        </ImageView>
+        <ImageView fitHeight="20.0" fitWidth="20.0" onMouseClicked="#onStopButtonClick"
+                   pickOnBounds="true" preserveRatio="true">
+            <HBox.margin>
+                <Insets left="5.0"/>
+            </HBox.margin>
+            <Image url="@../../../res/icons/icon_stop_white.png"/>
         </ImageView>
     </HBox>
 </VBox>

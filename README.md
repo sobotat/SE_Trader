@@ -8,7 +8,7 @@ An app that makes it easy for you to choose a trading route. Filter different ty
 
 ### ScreenShots
 
-![ver](src/main/resources/art/se_trader_1.1.3.png)
+![ver](src/main/resources/art/se_trader_1.1.4.png)
 
 ---
 ### How to use
@@ -68,5 +68,16 @@ An app that makes it easy for you to choose a trading route. Filter different ty
       - Added enter button next to textfield
       - Changed backHome checkbox
       - Changed Enter button to From Clipboard
+    - v1.1.4
+      - Massive optimization in calculating      
+      - Increase RAM to 4GB
+      - Added Stop button
+      - Fixed bug with not responding on calculate by dist
+      - Fixed Calculate by Dist was returning wrong route
+      - Improve design of wrong input from files
+      - Change output timer to 0,5sec
+      
+       
+
 
 </details>

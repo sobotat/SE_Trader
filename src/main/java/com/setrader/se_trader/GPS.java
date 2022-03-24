@@ -64,6 +64,7 @@ public class GPS {
         // Try to parse string to double
         String[] gpsArgs = new String[6];
         double x, y, z;
+        String name, color;
         try{
             gpsArgs = gpsString.split(":", -1);
 
@@ -71,20 +72,26 @@ public class GPS {
             y = Double.parseDouble(gpsArgs[3]);
             z = Double.parseDouble(gpsArgs[4]);
 
-
+            name = gpsArgs[1];
+            color = gpsArgs[5];
         } catch(NumberFormatException ex){ // handle your exception
+            name = "Error";
+            color = "#FF0000";
             x = 0; y = 0; z = 0;
             System.err.println("Error GPS: Co-ordinates in the wrong format");
             System.err.println(ex.getMessage());
         } catch (ArrayIndexOutOfBoundsException e){
             gpsArgs = new String[6];
+
+            name = "Error";
+            color = "#FF0000";
             x = 0; y = 0; z = 0;
             System.err.println("Error GPS: Array out off index");
             System.err.println(e.getMessage());
         }
 
         // Create GPS
-        return new GPS(gpsArgs[1], x, y, z, gpsArgs[5]);
+        return new GPS(name, x, y, z, color);
     }
 
     // To string

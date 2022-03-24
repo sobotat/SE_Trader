@@ -1,5 +1,6 @@
 package com.setrader.se_trader;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -8,6 +9,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
+import javax.swing.text.html.ImageView;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Timer;
@@ -26,12 +28,14 @@ public class Controller {
     @FXML
     public ProgressBar pb_status;
 
-    public static LinkedList<Integer> shortestRoutesIndexes = new LinkedList<>();
-    public static int shortestRouteDone = 0;
     static boolean viewRoute = false;
     static boolean timerEnd = true;
     static boolean backHome = true;
     static int selectedGPSItem = -1;
+
+    public void onStopButtonClick(){
+        RouteCalculator.calculationStop = true;
+    }
 
     public void loadGPSList(String fileName, boolean firstLoad){
         LinkedList<GPS> arr = null;
@@ -169,6 +173,7 @@ public class Controller {
                 Main.routesArr.clear();
 
                 RouteCalculator calculator = new RouteCalculator();
+                RouteCalculator.calculationStop = false;
                 RouteCalculator.numOfDoneRoutes = 0;
                 RouteCalculator.numOfCombination = Api.factorial(Main.gpsArr.size() - 1);
 
@@ -179,14 +184,20 @@ public class Controller {
 
                 Timer timer;
                 while (threadCalculateDist.isAlive()){
-                    double p = (double) RouteCalculator.numOfDoneRoutes / (double) RouteCalculator.numOfCombination;
-                    pb_status.setProgress(p);
+                    double progress = (double) RouteCalculator.numOfDoneRoutes / (double) RouteCalculator.numOfCombination;
+                    pb_status.setProgress(progress);
+
 
                     if (timerEnd){
-                        System.out.printf("%.2f%c\n", (p * 100), '%');
-                        String s = RouteCalculator.numOfDoneRoutes + " / " + RouteCalculator.numOfCombination;
-                        tf_GPS.clear();
-                        Main.controller.tf_GPS.setText(s);
+                        double percents = (progress * 100);
+                        System.out.printf("%.2f%c\n", percents, '%');
+                        String s = String.format("[%3d%c] <-> %d/%d", (int)percents, '%', RouteCalculator.numOfDoneRoutes, RouteCalculator.numOfCombination);
+                        //String s = RouteCalculator.numOfDoneRoutes + " / " + RouteCalculator.numOfCombination;
+
+                        Platform.runLater(() -> {
+                            tf_GPS.clear();
+                            tf_GPS.setText(s);
+                        });
 
                         timerEnd = false;
                         timer = new Timer(true);
@@ -195,7 +206,7 @@ public class Controller {
                             public void run() {
                                 timerEnd = true;
                             }
-                        }, 2000);
+                        }, 500);
                     }
                 }
 
@@ -205,38 +216,32 @@ public class Controller {
                 }
 
                 System.out.println("Done\n\nCalculating Shortest Route: ");
+                RouteCalculator.shortestRouteDone = 0;
 
-                LinkedList<Thread> threads = new LinkedList<>();
+                Runnable compareDist = () -> {
+                    LinkedList<Route> routesArr = new LinkedList<>(Main.rArr);
+                    RouteCalculator.shortestRouteIndex = RouteCalculator.shortestRoute( routesArr);
+                };
 
-                int numOfThreads = 4;
-                int T = 0;
-                int blockSize = Main.rArr.size()/numOfThreads;
-                shortestRoutesIndexes.clear();
-                shortestRouteDone = 0;
-
-                for (int t = 0; t < numOfThreads; t++){
-                    Runnable runShortestRoute = new MyRunnable(T, blockSize);
-                    threads.add(new Thread(runShortestRoute, ("shortestRoute t" + t)));
-                    threads.getLast().setDaemon(true);
-                    threads.getLast().start();
-                    T++;
-                }
-
+                Thread threadCompare = new Thread(compareDist, "ThreadCompareDist");
+                threadCompare.start();
                 int size = Main.rArr.size();
 
                 timerEnd = true;
-                while (shortestRouteDone < size && shortestThreadsDone(threads)){
-                    double progress = (double) shortestRouteDone / (double) size;
+                while (RouteCalculator.shortestRouteDone < size && threadCompare.isAlive()){
+                    double progress = (double) RouteCalculator.shortestRouteDone / (double) size;
+                    pb_status.setProgress(progress);
 
                     if (timerEnd){
-                    //if (pb_status.getProgress() != progress){
-                        pb_status.setProgress(progress);
+                        double percents = (progress * 100);
+                        System.out.printf("%.2f%c\n", percents, '%');
+                        String s = String.format("[%3d%c] <-> %d/%d", (int)percents, '%', RouteCalculator.shortestRouteDone, size);
+                        //String s = shortestRouteDone + " / " + size;
 
-                        //if ((progress * 100) %1 == 0){
-                        System.out.printf("%.2f%c\n", (progress * 100), '%');
-                        String s = shortestRouteDone + " / " + size;
-                        tf_GPS.clear();
-                        tf_GPS.setText(s);
+                        Platform.runLater(() -> {
+                            tf_GPS.clear();
+                            tf_GPS.setText(s);
+                        });
 
                         timerEnd = false;
                         timer = new Timer(true);
@@ -245,30 +250,41 @@ public class Controller {
                             public void run() {
                                 timerEnd = true;
                             }
-                        }, 2000);
+                        }, 500);
                     }
                 }
                 System.out.println("Done\n");
 
-                int minDistIndex = 0;
-                double minDist = Double.MAX_VALUE;
-                for (Integer shortestRoutesIndex : shortestRoutesIndexes) {
-                    Route r = Main.rArr.get(shortestRoutesIndex);
-                    if (r.distance < minDist) {
-                        minDist = r.distance;
-                        minDistIndex = shortestRoutesIndex;
-                    }
+                if (RouteCalculator.shortestRouteIndex >= 0 && !Main.rArr.isEmpty()) {
+                    Route shortestRoute = Main.rArr.get(RouteCalculator.shortestRouteIndex);
+
+                    //System.out.println(shortestRoute.toStringName());
+                    System.out.println(shortestRoute.toStringDist());
+
+                    Route.write(shortestRoute, Main.gpsArr);
+
+                    Platform.runLater(() -> {
+                        viewRoute = true;
+                        loadGPSList("route.txt", false);
+                        tf_GPS.clear();
+                        tf_GPS.setText("Distance of route is " + Math.round(shortestRoute.distance));
+                    });
+                }else{
+                    if (RouteCalculator.shortestRouteIndex == -1)
+                        System.err.println("Error Routes Arr is Empty");
+                    else if (RouteCalculator.shortestRouteIndex == -2)
+                        System.out.println("Shortest Route was canceled");
+                    else
+                        System.err.println("Error in Shortest Route - Code: " + RouteCalculator.shortestRouteIndex);
+
+                    Platform.runLater(() -> {
+                        tf_GPS.clear();
+                        if (RouteCalculator.shortestRouteIndex != -2)
+                            tf_GPS.setText("Route Calculation Failed");
+                        else
+                            tf_GPS.setText("Route Calculation Canceled");
+                    });
                 }
-                Route shortestRoute = Main.rArr.get(minDistIndex);
-                //System.out.println(shortestRoute.toStringName());
-                System.out.println(shortestRoute.toStringDist());
-
-                Route.write(shortestRoute, Main.gpsArr);
-
-                tf_GPS.setText("Distance of route is " + Math.round(shortestRoute.distance));
-
-
-
                 pb_status.setProgress(1);
             }
         };
@@ -276,19 +292,13 @@ public class Controller {
         Thread threadCalculate = new Thread( runCalculate, "CalculateThread");
         threadCalculate.setDaemon(true);
         threadCalculate.start();
-
-        do {
-            if (!threadCalculate.isAlive()){
-                viewRoute = true;
-                loadGPSList("route.txt", false);
-            }
-        } while (threadCalculate.isAlive());
     }
 
     public void onCalculateNextButtonClick(){
         Runnable runCalculate = () -> {
             pb_status.setVisible(true);
             pb_status.setProgress(0);
+            RouteCalculator.calculationStop = false;
             // Initialization
 
             // Start route calculation
@@ -305,24 +315,23 @@ public class Controller {
                 RouteCalculator.route.gpsIndex.add(0);
                 calculator.routeCalculateByShortestJump(startGPS, routeGPS);
 
+                RouteCalculator.route.distance = RouteCalculator.routeDistance(RouteCalculator.route);
                 pb_status.setProgress(0.95);
                 tf_GPS.setText("Distance of route is " + Math.round(RouteCalculator.route.distance));
 
 
             }
             pb_status.setProgress(1);
+
+            Platform.runLater(() -> {
+                viewRoute = true;
+                loadGPSList("route.txt", false);
+            });
         };
 
         Thread threadCalculate = new Thread( runCalculate, "CalculateThread");
         threadCalculate.setDaemon(true);
         threadCalculate.start();
-
-        do {
-            if (!threadCalculate.isAlive()){
-                viewRoute = true;
-                loadGPSList("route.txt", false);
-            }
-        } while (threadCalculate.isAlive());
     }
 
     public void onViewButtonClick(){
@@ -335,29 +344,5 @@ public class Controller {
             tv_viewButton.setText("View Route");
             loadGPSList("gps.txt", false);
         }
-    }
-
-    private boolean shortestThreadsDone(LinkedList<Thread> threads){
-        for (Thread thread: threads) {
-            if (thread.isAlive())
-                return true;
-        }
-        return false;
-    }
-}
-
-class MyRunnable implements Runnable {
-
-    int T;
-    int blockSize;
-
-    public MyRunnable(int T, int blockSize) {
-        this.T = T;
-        this.blockSize = blockSize;
-    }
-
-    public void run() {
-        LinkedList<Route> r = new LinkedList<>(Main.rArr);
-        Controller.shortestRoutesIndexes.add(RouteCalculator.shortestRoute((T * blockSize), ((T + 1) * blockSize), r));
     }
 }
