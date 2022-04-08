@@ -2,21 +2,22 @@
   <img src="src/main/resources/se_trader_logo.png" alt="SE_Trader Logo" width="150" height="150">
 </p>
 
-<h3 align="center">SE Trader</h3>
+<h3 align="center"><span style="color:#96c8ff">SE Trader</span></h3>
 
 <p align="center">
   Made for Space Engineers for easier travels
   <br>
-  <a href="https://github.com/sobotat/SE_Trader/issues">Request feature</a>  
+  <a href="https://github.com/sobotat/SE_Trader/discussions/categories/ideas">Request feature</a>  
   ·
   <a href="https://github.com/sobotat/SE_Trader/issues">Report bug</a>
   ·
+  <a href="https://github.com/sobotat/SE_Trader/discussions/categories/q-a">Questions</a>
+  · 
   <a href="https://github.com/sobotat">Author</a>
 </p>
 
 ---
-
-### Info
+### <span style="color:#96c8ff">Info</span>
 
 An app that makes it easy for you to choose a trading route. 
 
@@ -29,12 +30,11 @@ An app that makes it easy for you to choose a trading route.
 * Using Clipboard and format like in the game
 
 ---
-
-### UI
+### <span style="color:#96c8ff">UI</span>
 ![UI](src/main/resources/art/se_trader_1.2.png)
 
 ---
-### How to use
+### <span style="color:#96c8ff">How To Use</span>
 
 1. Add your GPS, Save it if you want
 2. Calculate:
@@ -44,23 +44,21 @@ An app that makes it easy for you to choose a trading route.
 
 
 ---
-
-### Install
+### <span style="color:#96c8ff">Install</span>
 1. Download **exe** or **msi** file
 2. Install it and you are ready to use.
 3. GPS and Route File is located in **Documents\SE_Trader** folder
 
 ---
-
-### Work to need to be done
+### <span style="color:#96c8ff">Work to need to be done</span>
 
    - Add Settings Page
    - ~~Implement Log System~~
    - Make App Better
 
 ---
+### <span style="color:#96c8ff">Changelog</span>
 
-### Changelog:
 <details>    
 <summary>Show</summary>
 
