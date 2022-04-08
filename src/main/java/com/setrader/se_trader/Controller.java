@@ -4,51 +4,77 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.control.*;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import javax.swing.text.html.ImageView;
+import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class Controller {
+    private static final Logger logger = LogManager.getLogger(Controller.class.getName());
 
     @FXML
-    public TextField tf_GPS;
+    public TextField tf_InfoBar;
     @FXML
-    Text tv_viewButton;
+    Text tv_viewButton, tv_RouteSelector;
     @FXML
-    VBox vBox_List;
+    VBox vBox_List, vBox_Table;
     @FXML
-    HBox hBox_backHome;
+    ScrollPane scl_List;
+    @FXML
+    public HBox hBox_backHome;
     @FXML
     public ProgressBar pb_status;
 
     static boolean viewRoute = false;
     static boolean timerEnd = true;
-    static boolean backHome = true;
-    static int selectedGPSItem = -1;
+    private Node bp_RouteSelectorNode;
 
-    public void onStopButtonClick(){
-        RouteCalculator.calculationStop = true;
-    }
-
+    // Load Table of GPS
     public void loadGPSList(String fileName, boolean firstLoad){
         LinkedList<GPS> arr = null;
 
         try {
             if (fileName.equals("route.txt")) {
-                Main.routesArr = Files.readGPS(fileName);
-                arr = Main.routesArr;
+                if (bp_RouteSelectorNode != null && vBox_Table.getChildren().size() <= 1 && Main.routesArr.size() > 1) {
+                    vBox_Table.getChildren().add(bp_RouteSelectorNode);
+                }
+
+                if (vBox_Table.getChildren().size() > 1) {
+                    Platform.runLater(() -> {
+                        double dist = Main.routesArr.get(Main.routeCurrent).distance;
+                        tv_RouteSelector.setText(String.format("< %d/%d > <-> %.1f", (Main.routeCurrent + 1), (Main.routesArr.size()), dist));
+                    });
+                }
+
+                if (!Main.routesArr.isEmpty())
+                    Route.write(Main.routesArr.get(Main.routeCurrent), Main.gpsArr);
+
+                Main.routeArr = Files.readGPS(fileName);
+                arr = Main.routeArr;
             }else{
+                if (vBox_Table.getChildren().size() > 1) {
+                    bp_RouteSelectorNode = vBox_Table.getChildren().get(1);
+                    vBox_Table.getChildren().remove(1);
+                }
+
                 if (firstLoad)
                     Main.gpsArr = Files.readGPS(fileName);
 
                 arr = Main.gpsArr;
+
+                if (RouteCalculator.homeIndex >= Main.gpsArr.size())
+                    RouteCalculator.homeIndex = 0;
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -57,6 +83,7 @@ public class Controller {
         assert arr != null;
 
         vBox_List.getChildren().clear();
+        ItemGPSController.GPScontrollers.clear();
         Node[] nodes = new Node[arr.size()];
 
         try {
@@ -69,63 +96,70 @@ public class Controller {
                 ItemGPSController gpsController = fxmlLoader.getController();
                 gpsController.setItem(arr.get(i));
 
-                nodes[i].setOnMouseEntered(event -> {
-                    if (selectedGPSItem != h)
-                        nodes[h].setStyle("-fx-background-color: #2F2F2F");
-                });
-                nodes[i].setOnMouseExited(event -> {
-                    if (selectedGPSItem != h)
-                        nodes[h].setStyle("-fx-background-color: #1F1F1F");
-                });
-                nodes[i].setOnMouseClicked(event -> {
-                    if (selectedGPSItem != h) {
-                        nodes[h].setStyle("-fx-background-color: #5F5F5F");
-                        selectedGPSItem = h;
+                nodes[i].setOnMouseEntered(event -> nodes[h].setStyle("-fx-background-color: #2F2F2F"));
+                nodes[i].setOnMouseExited(event -> nodes[h].setStyle("-fx-background-color: #1F1F1F"));
 
-                        for (Node n: nodes) {
-                            if (n != null && n != nodes[h]){
-                              n.setStyle("-fx-background-color: #1F1F1F");
-                            }
-                        }
-
-                    }else{
-                        nodes[h].setStyle("-fx-background-color: #1F1F1F");
-                        selectedGPSItem = -1;
-                    }
-                });
+                ItemGPSController.GPScontrollers.add(gpsController);
                 vBox_List.getChildren().add(nodes[i]);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-
+        updateItemsWidth();
     }
 
+    // Home Button
     public void onBackHomeButtonClick() {
-        if (backHome) {
-            hBox_backHome.setStyle("-fx-background-color: #1F1F1F; -fx-background-radius: 20;");
-            backHome = false;
-        }else {
+        RouteCalculator.backHome = !RouteCalculator.backHome;
+        updateBackHomeButton(true);
+    }
+
+    public void onBackHomeButtonEntered(){
+        updateBackHomeButton(true);
+    }
+
+    public void onBackHomeButtonExited(){
+        updateBackHomeButton(false);
+    }
+
+    public void updateBackHomeButton(boolean entered){
+        if (RouteCalculator.backHome) {
             hBox_backHome.setStyle("-fx-background-color: #96c8ff; -fx-background-radius: 20;");
-            backHome = true;
+            if (entered)
+                hBox_backHome.setStyle(hBox_backHome.getStyle() + "-fx-border-color: #1F1F1F; -fx-border-radius: 20;");
+        }else {
+            if (entered) {
+                hBox_backHome.setStyle("-fx-background-color: #2F2F2F; -fx-background-radius: 20;" +
+                        "-fx-border-color: #1F1F1F; -fx-border-radius: 20;" +
+                        "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 3, 0, 0, 0);");
+            }else
+                hBox_backHome.setStyle("-fx-background-color: #1F1F1F; -fx-background-radius: 20;");
         }
     }
 
-    public void onSaveButtonClick() throws IOException {
+    // Control Emergency Stop
+    public void onStopButtonClick(){
+        RouteCalculator.calculationStop = true;
+    }
+
+    // Save Button
+    public void onSaveButtonClick() {
         Files.writeGPS( "gps.txt",Main.gpsArr);
     }
 
+    // Load Button
     public void onLoadButtonClick() throws IOException {
         viewRoute = false;
-        tv_viewButton.setText("View Route");
+        tv_viewButton.setText("Route");
         Main.gpsArr = Files.readGPS("gps.txt");
         loadGPSList("gps.txt", false);
     }
 
+    // Add to List
     public void onEnterButtonClick() {
         String text = Api.getFromClipboard();
         if (text.equals("") || !GPS.isGPS(text)) {
-            text = tf_GPS.getText();
+            text = tf_InfoBar.getText();
         }
 
         if (GPS.isGPS(text)){
@@ -135,48 +169,53 @@ public class Controller {
             loadGPSList("gps.txt", false);
         }else{
             //tv_viewButton.setText("This is not GPS");
-            System.err.println("EnterButton: Wrong GPS Input: \t" + text);
+            logger.error("EnterButton: Wrong GPS Input: \t" + text);
         }
     }
 
+    // Copy All to ClipBoard
     public void onCopyAllButtonClick(){
         StringBuilder allGPS = new StringBuilder();
-        LinkedList<GPS> arr = viewRoute ? Main.routesArr : Main.gpsArr;
+        LinkedList<GPS> arr = viewRoute ? Main.routeArr : Main.gpsArr;
 
         for (GPS gps: arr) {
             allGPS.append(gps.toString());
             allGPS.append("\n");
         }
-        tf_GPS.clear();
-        tf_GPS.setText("All GPS are in Clipboard");
+        tf_InfoBar.clear();
+        tf_InfoBar.setText("All GPS are in Clipboard");
         Api.writeTextToClipboard(allGPS.toString());
     }
 
-
-
+    // Calculation
     public void onCalculateEntireButtonClick(){
         Runnable runCalculate = () -> {
             if (!Main.gpsArr.isEmpty()) {
+                logger.info("Calculating By Dist Starting");
                 pb_status.setVisible(true);
                 pb_status.setProgress(0);
 
                 Integer[] startGPS = new Integer[Main.gpsArr.size()-1];
-                for (int i = 1; i < Main.gpsArr.size(); i++) {
-                    int j = i - 1;
-                    startGPS[j] = i;
+                int j = 0;
+                for (int i = 0; i < Main.gpsArr.size(); i++) {
+                    if (i != RouteCalculator.homeIndex) {
+                        startGPS[j] = i;
+                        j++;
+                    }
                 }
 
                 Integer[] routeGPS = new Integer[1];
-                routeGPS[0] = 0;
+                routeGPS[0] = RouteCalculator.homeIndex;
 
-                Main.rArr.clear();
                 Main.routesArr.clear();
+                Main.routeArr.clear();
 
+                logger.info("Calculating Possible Routes");
                 RouteCalculator calculator = new RouteCalculator();
                 RouteCalculator.numOfDoneRoutes = 0;
                 RouteCalculator.numOfCombination = Api.factorial(Main.gpsArr.size() - 1);
 
-                Runnable runCalculateDist = () -> calculator.routeCalculateByShortestDist( startGPS, routeGPS, backHome);
+                Runnable runCalculateDist = () -> calculator.routeCalculateByShortestDist( startGPS, routeGPS);
 
                 Thread threadCalculateDist = new Thread(runCalculateDist, "ThreadCalculateDist");
                 threadCalculateDist.start();
@@ -190,12 +229,15 @@ public class Controller {
                     if (timerEnd){
                         double percents = (progress * 100);
                         System.out.printf("%.2f%c\n", percents, '%');
-                        String s = String.format("[%3d%c] <-> %d/%d", (int)percents, '%', RouteCalculator.numOfDoneRoutes, RouteCalculator.numOfCombination);
-                        //String s = RouteCalculator.numOfDoneRoutes + " / " + RouteCalculator.numOfCombination;
+                        String s;
+                        if (RouteCalculator.currentMinDist != Double.MAX_VALUE)
+                            s = String.format("[%3d%c] <-> %d/%d -- [Current %.0f]", (int)percents, '%', RouteCalculator.numOfDoneRoutes, RouteCalculator.numOfCombination, RouteCalculator.currentMinDist);
+                        else
+                            s = String.format("[%3d%c] <-> %d/%d", (int)percents, '%', RouteCalculator.numOfDoneRoutes, RouteCalculator.numOfCombination);
 
                         Platform.runLater(() -> {
-                            tf_GPS.clear();
-                            tf_GPS.setText(s);
+                            tf_InfoBar.clear();
+                            tf_InfoBar.setText(s);
                         });
 
                         timerEnd = false;
@@ -210,114 +252,72 @@ public class Controller {
                 }
 
                 RouteCalculator.distMatrix(Main.gpsArr);
-                for (Route r: Main.rArr){
+                for (Route r: Main.routesArr){
                     r.distance = RouteCalculator.routeDistance(r);
                 }
+                Main.routeCurrent = 0;
+                logger.info("Calculating Possible Routes Done");
 
-                System.out.println("Done\n\nCalculating Shortest Route: ");
-                RouteCalculator.shortestRouteDone = 0;
-
-                Runnable compareDist = () -> {
-                    LinkedList<Route> routesArr = new LinkedList<>(Main.rArr);
-                    RouteCalculator.shortestRouteIndex = RouteCalculator.shortestRoute( routesArr);
-                };
-
-                Thread threadCompare = new Thread(compareDist, "ThreadCompareDist");
-                threadCompare.start();
-                int size = Main.rArr.size();
-
-                timerEnd = true;
-                while (RouteCalculator.shortestRouteDone < size && threadCompare.isAlive()){
-                    double progress = (double) RouteCalculator.shortestRouteDone / (double) size;
-                    pb_status.setProgress(progress);
-
-                    if (timerEnd){
-                        double percents = (progress * 100);
-                        System.out.printf("%.2f%c\n", percents, '%');
-                        String s = String.format("[%3d%c] <-> %d/%d", (int)percents, '%', RouteCalculator.shortestRouteDone, size);
-                        //String s = shortestRouteDone + " / " + size;
-
-                        Platform.runLater(() -> {
-                            tf_GPS.clear();
-                            tf_GPS.setText(s);
-                        });
-
-                        timerEnd = false;
-                        timer = new Timer(true);
-                        timer.schedule(new TimerTask() {
-                            @Override
-                            public void run() {
-                                timerEnd = true;
-                            }
-                        }, 500);
-                    }
-                }
-                System.out.println("Done\n");
-
-                if (RouteCalculator.shortestRouteIndex >= 0 && !Main.rArr.isEmpty()) {
-                    Route shortestRoute = Main.rArr.get(RouteCalculator.shortestRouteIndex);
-
-                    //System.out.println(shortestRoute.toStringName());
-                    System.out.println(shortestRoute.toStringDist());
+                if (!Main.routesArr.isEmpty()) {
+                    Route shortestRoute = Main.routesArr.get(Main.routeCurrent);
+                    logger.info(shortestRoute.toStringDist());
 
                     Route.write(shortestRoute, Main.gpsArr);
 
                     Platform.runLater(() -> {
                         viewRoute = true;
                         loadGPSList("route.txt", false);
-                        tf_GPS.clear();
-                        tf_GPS.setText("Distance of route is " + Math.round(shortestRoute.distance));
+                        tf_InfoBar.clear();
+
+                        if (!RouteCalculator.calculationStop)
+                            tf_InfoBar.setText("Distance of route is " + Math.round(shortestRoute.distance));
+                        else
+                            tf_InfoBar.setText("Route Calculation Canceled");
                     });
                 }else{
-                    if (RouteCalculator.shortestRouteIndex == -1)
-                        System.err.println("Error Routes Arr is Empty");
-                    else if (RouteCalculator.shortestRouteIndex == -2)
-                        System.out.println("Shortest Route was canceled");
-                    else
-                        System.err.println("Error in Shortest Route - Code: " + RouteCalculator.shortestRouteIndex);
+                    logger.error("Error Routes Arr is Empty");
 
                     Platform.runLater(() -> {
-                        tf_GPS.clear();
-                        if (RouteCalculator.shortestRouteIndex != -2)
-                            tf_GPS.setText("Route Calculation Failed");
-                        else
-                            tf_GPS.setText("Route Calculation Canceled");
+                        tf_InfoBar.clear();
+                        tf_InfoBar.setText("Route Calculation Failed");
                     });
                 }
                 pb_status.setProgress(1);
             }
         };
 
-        Thread threadCalculate = new Thread( runCalculate, "CalculateThread");
-        threadCalculate.setDaemon(true);
-        threadCalculate.start();
+        if (RouteCalculator.numOfDoneRoutes == RouteCalculator.numOfCombination || RouteCalculator.calculationStop) {
+            Thread threadCalculate = new Thread(runCalculate, "CalculateThread");
+            threadCalculate.setDaemon(true);
+            threadCalculate.start();
+        }
     }
 
     public void onCalculateNextButtonClick(){
         Runnable runCalculate = () -> {
+            logger.info("Calculating By Jump Started");
             pb_status.setVisible(true);
             pb_status.setProgress(0);
             // Initialization
 
             // Start route calculation
-            //Route.routeCalculate(route, Main.gpsArr, notUsedGPS);
             if (!Main.gpsArr.isEmpty()) {
                 pb_status.setProgress(0.05);
                 RouteCalculator calculator = new RouteCalculator();
-                RouteCalculator.route = new Route();
                 LinkedList<GPS> routeGPS = new LinkedList<>(Main.gpsArr);
 
-                GPS startGPS = routeGPS.remove(0);
+                GPS startGPS = routeGPS.remove(RouteCalculator.homeIndex);
+
+                Route route = new Route();
+                route.gpsIndex.add(RouteCalculator.homeIndex);
 
                 pb_status.setProgress(0.25);
-                RouteCalculator.route.gpsIndex.add(0);
-                calculator.routeCalculateByShortestJump(startGPS, routeGPS);
+                calculator.routeCalculateByShortestJump(startGPS, routeGPS, route);
 
-                RouteCalculator.route.distance = RouteCalculator.routeDistance(RouteCalculator.route);
                 pb_status.setProgress(0.95);
-                tf_GPS.setText("Distance of route is " + Math.round(RouteCalculator.route.distance));
-
-
+                tf_InfoBar.setText("Distance of route is " + Math.round(Main.routesArr.getFirst().distance));
+                logger.info("Calculating By Jump Done");
+                Main.routeCurrent = 0;
             }
             pb_status.setProgress(1);
 
@@ -332,15 +332,82 @@ public class Controller {
         threadCalculate.start();
     }
 
+    // View GPS/Route
     public void onViewButtonClick(){
         if (!viewRoute) {
             viewRoute = true;
-            tv_viewButton.setText("View GPS");
+            tv_viewButton.setText("GPS");
             loadGPSList("route.txt", false);
         }else{
             viewRoute = false;
-            tv_viewButton.setText("View Route");
+            tv_viewButton.setText("Route");
             loadGPSList("gps.txt", false);
         }
+    }
+
+    // Open Folder
+    public void onFolderButtonClick(){
+        Desktop desktop;
+        String userprofile = System.getenv("USERPROFILE");
+        File file = new File( userprofile + "\\Documents\\SE_Trader");
+
+        try {
+            if (Desktop.isDesktopSupported()) {
+                desktop = Desktop.getDesktop();
+                desktop.open(file);
+            } else
+                logger.error("Open Folder: Desktop is not supported");
+        }catch (IOException e){
+            logger.error("Open Folder: Folder Not Found");
+        }
+
+    }
+
+    // Switch Current Route
+    public void onRoutePrevClick(){
+        if (Main.routeCurrent - 1 >= 0) {
+            Main.routeCurrent--;
+
+            if (Controller.viewRoute)
+                loadGPSList("route.txt", false);
+        }
+    }
+
+    public void onRouteNextClick(){
+        if (Main.routeCurrent + 1 < Main.routesArr.size()) {
+            Main.routeCurrent++;
+
+            if (Controller.viewRoute)
+                loadGPSList("route.txt", false);
+        }
+    }
+
+    // Update Size of Items in the Table
+    protected void updateItemsWidth(){
+        for (ItemGPSController controller : ItemGPSController.GPScontrollers) {
+            controller.hBox_Item.setMinWidth(vBox_List.widthProperty().get() - 30);
+            controller.hBox_Item.setMaxWidth(vBox_List.widthProperty().get() - 30);
+        }
+    }
+
+    // On Start
+    public void initialize(){
+        scl_List.widthProperty().addListener((obs, oldVal, newVal) -> {
+            vBox_List.setMaxWidth(scl_List.widthProperty().get());
+            vBox_List.setMinWidth(scl_List.widthProperty().get());
+
+            updateItemsWidth();
+        });
+
+        scl_List.heightProperty().addListener((obs, oldVal, newVal) -> {
+            if (vBox_List.getChildren().size() * 30 < scl_List.heightProperty().get()){
+                vBox_List.setMaxHeight(scl_List.heightProperty().get());
+                vBox_List.setMinHeight(scl_List.heightProperty().get());
+            }else {
+                vBox_List.setMaxHeight(vBox_List.getChildren().size() * 30);
+                vBox_List.setMinHeight(vBox_List.getChildren().size() * 30);
+            }
+        });
+
     }
 }

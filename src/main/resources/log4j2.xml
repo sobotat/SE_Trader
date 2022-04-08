@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Properties>
+        <Property name="filename">${sys:user.home}/Documents/SE_Trader/App</Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="[%p] [%t] %logger{36} -> %msg%n"/>
+        </Console>
+        <RollingFile name="LogFile" fileName="${filename}/log.log"
+                     filePattern="${filename}/log_%d{ddMMyyyy}_%d{HHmmss}.log">
+            <PatternLayout>
+                <pattern>%d [%p] [%t] %logger{36} -> %msg%n</pattern>
+            </PatternLayout>
+            <SizeBasedTriggeringPolicy size="100 KB"/>
+            <DefaultRolloverStrategy max="3" >
+                <Delete basePath="${filename}" maxDepth="1">
+                    <IfFileName glob="log_*.log" />
+                    <IfLastModified age="P3D" />
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Root level="trace">
+            <AppenderRef ref="Console" level="trace"/>
+            <AppenderRef ref="LogFile" level="info"/>
+        </Root>
+    </Loggers>
+</Configuration>

@@ -1,6 +1,5 @@
 package com.setrader.se_trader;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -24,15 +23,14 @@ public class Route {
     public String toStringName(){
         StringBuilder out = new StringBuilder("R: \n");
         for (Integer index : gpsIndex) {
-            out.append(index).append(". ").append(Main.gpsArr.get(index).getName()).append("\n");
+            out.append(index).append(". ").append(Main.gpsArr.get(index).name).append("\n");
         }
         return out.toString();
     }
     public String toStringDist(){
         StringBuilder out = new StringBuilder("R: ");
-        System.out.println(gpsIndex);
+        //System.out.println(gpsIndex);
         for (int i = 1; i < gpsIndex.size(); i++){
-            //System.out.println(Main.gpsArr.get(gpsIndex.get(i - 1)).getName() + " --- " + Main.gpsArr.get(gpsIndex.get(i)).getName());
             out.append( Math.round(GPS.distance(Main.gpsArr.get(gpsIndex.get(i - 1)), Main.gpsArr.get(gpsIndex.get(i))) / 1000)).append(" > ");
         }
         out.append(" -- ").append(Math.round(distance));
@@ -50,15 +48,12 @@ public class Route {
         for (int i = 0; i < route.gpsIndex.size(); i++){
             GPS gps = gpsArr.get(route.gpsIndex.get(i));
             GPS gpsRoute = GPS.makeFromString(gps.toString());
-            gpsRoute.setColor("#FFBB00");
-            gpsRoute.setName( String.format("%02d %s", i, gpsRoute.getName().replaceAll("\\d","").trim()));
+            gpsRoute.color = "#FFBB00";
+            gpsRoute.name = String.format("%02d %s", i, gpsRoute.name.replaceAll("\\d","").trim());
             routeGPS.add(gpsRoute);
         }
 
-        try {
-            Files.writeGPS("route.txt", routeGPS);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Main.routeArr = routeGPS;
+        Files.writeGPS("route.txt", routeGPS);
     }
 }

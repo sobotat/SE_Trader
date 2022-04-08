@@ -6,6 +6,7 @@ import java.io.IOException;
 
 public class Api {
 
+    // Counts Factorial (Used for all Combinations)
     public static long factorial(int n) {
         if (n <= 2) {
             return n;
@@ -13,6 +14,7 @@ public class Api {
         return n * factorial(n - 1);
     }
 
+    // Clipboard Read and Write
     public static void writeTextToClipboard(String s) {
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         Transferable transferable = new StringSelection(s);

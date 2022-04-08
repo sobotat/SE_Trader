@@ -2,14 +2,14 @@ package com.setrader.se_trader;
 
 public class GPS {
 
-    private String name;
-    private double x;
-    private double y;
-    private double z;
-    private String strX;
-    private String strY;
-    private String strZ;
-    private String color;
+    protected String name;
+    protected final double x;
+    protected final double y;
+    protected final double z;
+    protected String strX;
+    protected String strY;
+    protected String strZ;
+    protected String color;
 
 
     public GPS(String name, double x, double y, double z, String color){
@@ -23,46 +23,12 @@ public class GPS {
         this.color = color;
     }
 
-    // Getters
-    public String getName() {
-        return name;
-    }
-    public String getStrX() {
-        return strX;
-    }
-    public String getStrY() {
-        return strY;
-    }
-    public String getStrZ() {
-        return strZ;
-    }
-    public String getColor() {
-        return color;
-    }
-
-    // Setters
-    public void setName(String name) {
-        this.name = name;
-    }
-    public void setStrX(String strX) {
-        this.strX = strX;
-    }
-    public void setStrY(String strY) {
-        this.strY = strY;
-    }
-    public void setStrZ(String strZ) {
-        this.strZ = strZ;
-    }
-    public void setColor(String color) {
-        this.color = color;
-    }
-
     // Will made GPS object from game string
     public static GPS makeFromString(String gpsString){
 
         // Split
         // Try to parse string to double
-        String[] gpsArgs = new String[6];
+        String[] gpsArgs;
         double x, y, z;
         String name, color;
         try{
@@ -81,8 +47,6 @@ public class GPS {
             System.err.println("Error GPS: Co-ordinates in the wrong format");
             System.err.println(ex.getMessage());
         } catch (ArrayIndexOutOfBoundsException e){
-            gpsArgs = new String[6];
-
             name = "Error";
             color = "#FF0000";
             x = 0; y = 0; z = 0;

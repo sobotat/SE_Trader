@@ -1,6 +1,22 @@
-# SE Traider
+<p align="center">
+  <img src="src/main/resources/se_trader_logo.png" alt="SE_Trader Logo" width="150" height="150">
+</p>
 
-Made for Space Engineers for easier travels
+<h3 align="center">SE Trader</h3>
+
+<p align="center">
+  Made for Space Engineers for easier travels
+  <br>
+  <a href="https://github.com/sobotat/SE_Trader/issues">Request feature</a>  
+  ·
+  <a href="https://github.com/sobotat/SE_Trader/issues">Report bug</a>
+  ·
+  <a href="https://github.com/sobotat">Author</a>
+</p>
+
+---
+
+### Info
 
 An app that makes it easy for you to choose a trading route. 
 
@@ -15,7 +31,7 @@ An app that makes it easy for you to choose a trading route.
 ---
 
 ### UI
-![ver](src/main/resources/art/se_trader_1.1.4.png)
+![UI](src/main/resources/art/se_trader_1.2.png)
 
 ---
 ### How to use
@@ -38,8 +54,8 @@ An app that makes it easy for you to choose a trading route.
 
 ### Work to need to be done
 
-   - Add Settings
-   - Implement Log System
+   - Add Settings Page
+   - ~~Implement Log System~~
    - Make App Better
 
 ---
@@ -92,8 +108,19 @@ An app that makes it easy for you to choose a trading route.
       - Improve design of wrong input from files
       - Change output timer to 0,5sec
       - Fixed bug not reseting min distance
-      
-       
+    - v1.2
+      - Implemented Logging System
+      - Added Settings File
+      - Added Home Button, implemented into route calculation and fixed
+      - Added options to browse routes
+      - Added button to open application folder
+      - Redesigned the app to change the size of the window.
+      - Implemented saving window size on save.
+      - Enabled the ability to resize the window.
+      - Fixed app icon in title bar
+      - Button design reworked
+      - Calculation Optimalization
+
 
 
 </details>

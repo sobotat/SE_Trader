@@ -84,3 +84,29 @@
     -fx-background-color: #96c8ff;
     -fx-background-radius: 5em;
 }
+
+#btn_Black {
+    -fx-background-color: #1F1F1F;
+    -fx-background-radius: 20;
+}
+
+#btn_Black:hover {
+    -fx-background-color: #2F2F2F;
+    -fx-background-radius: 20;
+    -fx-border-color: #1F1F1F;
+    -fx-border-radius: 20;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 3, 0, 0, 0);
+}
+
+#btn_Gray {
+    -fx-background-color: #2F2F2F;
+    -fx-background-radius: 20;
+}
+
+#btn_Gray:hover {
+    -fx-background-color: #1F1F1F;
+    -fx-background-radius: 20;
+    -fx-border-color: #2F2F2F;
+    -fx-border-radius: 20;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 3, 0, 0, 0);
+}

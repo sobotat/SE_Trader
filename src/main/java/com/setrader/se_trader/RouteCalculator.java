@@ -1,19 +1,24 @@
 package com.setrader.se_trader;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.util.Collections;
 import java.util.LinkedList;
 
 public class RouteCalculator {
+    private static final Logger logger = LogManager.getLogger(RouteCalculator.class.getName());
 
     // Array of All Routes
-    public static Route route = new Route();
     private static Double[][] distM = null;
-    private static Double currentMinDist = Double.MAX_VALUE;
-    public static long numOfCombination = 0;
-    public static long numOfDoneRoutes = 0;
-    public static int shortestRouteIndex = -1;
-    public static int shortestRouteDone = 0;
-    public static boolean calculationStop = false;
+    protected static Double currentMinDist = Double.MAX_VALUE;
+    protected static long numOfCombination = 0;
+    protected static long numOfDoneRoutes = 0;
+    protected static int shortestRouteIndex = -1;
+    protected static int shortestRouteDone = 0;
+    protected static boolean calculationStop = false;
+    protected static int homeIndex = 0;
+    protected static boolean backHome = true;
     
     public RouteCalculator(){
         calculationStop = false;
@@ -33,7 +38,7 @@ public class RouteCalculator {
         }
     }
 
-    public void routeCalculateByShortestDist( Integer[] arrIndex, Integer[] arrRoute, boolean backHome){
+    public void routeCalculateByShortestDist( Integer[] arrIndex, Integer[] arrRoute){
         if (calculationStop)
             return;
 
@@ -54,7 +59,7 @@ public class RouteCalculator {
                 System.arraycopy(arrRoute, 0, arrRouteNew, 0, arrRoute.length);
 
                 arrRouteNew[arrRouteNew.length - 1] = index;
-                routeCalculateByShortestDist(arrIndexNew, arrRouteNew, backHome);
+                routeCalculateByShortestDist(arrIndexNew, arrRouteNew);
             }
         }else{
             Route r = new Route();
@@ -62,7 +67,7 @@ public class RouteCalculator {
             if (backHome) {
                 Integer[] arrRouteN = new Integer[arrRoute.length + 1];
                 System.arraycopy(arrRoute, 0, arrRouteN, 0, arrRoute.length);
-                arrRouteN[arrRouteN.length - 1] = 0;
+                arrRouteN[arrRouteN.length - 1] = homeIndex;
                 Collections.addAll(r.gpsIndex, arrRouteN);
             }else {
                 Collections.addAll(r.gpsIndex, arrRoute);
@@ -72,7 +77,7 @@ public class RouteCalculator {
 
             if (r.distance < currentMinDist) {
                 currentMinDist = r.distance;
-                Main.rArr.push(r);
+                Main.routesArr.push(r);
             }
 
             numOfDoneRoutes++;
@@ -80,7 +85,7 @@ public class RouteCalculator {
     }
 
     // Writing Routes in Arr in main, Arguments: FirstRoute (with start pos), Arr of GPS
-    public void routeCalculateByShortestJump(GPS lastGPS,LinkedList<GPS> gpsArr) {
+    public void routeCalculateByShortestJump( GPS lastGPS, LinkedList<GPS> gpsArr, Route route) {
         if (calculationStop)
             return;
 
@@ -90,16 +95,19 @@ public class RouteCalculator {
 
             route.gpsIndex.add(Main.gpsArr.indexOf(currentRoute));
 
-            routeCalculateByShortestJump( currentRoute, gpsArr);
+            routeCalculateByShortestJump( currentRoute, gpsArr, route);
         }else{
-            if (Controller.backHome)
-                route.gpsIndex.add(0);
+            if (backHome)
+                route.gpsIndex.add(homeIndex);
 
             route.distance = RouteCalculator.routeDistance(route);
+
+            Main.routesArr.clear();
+            Main.routesArr.add(route);
+
             Route.write(route, Main.gpsArr);
 
-            //System.out.println(route.toString());
-            System.out.println(route.toStringDist());
+            logger.info(route.toStringDist());
         }
     }
 
@@ -125,13 +133,12 @@ public class RouteCalculator {
     }
 
     // Calculate minimal number of distance from arr of routes, Returns Index
+    /*
     public static int shortestRoute( LinkedList<Route> routesArr) {
         if (routesArr.isEmpty())
             return -1;
 
         int index = 0;
-
-        int size = routesArr.size();
         double minDist = routesArr.pop().distance;
 
         while (!routesArr.isEmpty()){
@@ -142,32 +149,14 @@ public class RouteCalculator {
             double dist = route.distance;
             if (minDist > dist) {
                 minDist = dist;
-                index = Main.rArr.indexOf(route);
+                index = Main.routesArr.indexOf(route);
             }
             shortestRouteDone++;
         }
 
         return index;
     }
-
-    /*
-    public static int shortestRoute(int indexFrom, int indexTo,LinkedList<Route> routesArr) {
-        int index = 0;
-
-        double minDist = routesArr.get(0).distance;
-        for (int i = indexFrom; i < indexTo; i++) {
-            if (i < routesArr.size()){
-                double dist = routesArr.get(i).distance;
-                if (minDist > dist) {
-                    minDist = dist;
-                    index = i;
-                }
-                Controller.shortestRouteDone++;
-            }
-        }
-
-        return index;
-    }*/
+    */
 
     // Calculate distance in route in km
     public static double routeDistance(Route route){
@@ -183,42 +172,4 @@ public class RouteCalculator {
         return dist;
     }
 
-    /*
-
-    // Calculate minimal number of distance from arr of routes, Returns Index
-    public static int shortestRoute(LinkedList<Route> routesArr) {
-        int index = 0;
-        int size = routesArr.size();
-
-        double minDist = routesArr.get(0).distance;
-
-        for (int i = 0; i < size; i++) {
-            if (minDist > routesArr.get(i).distance) {
-                minDist = routesArr.get(i).distance;
-                index = i;
-            }
-
-            double p = (double) i / (double) size;
-            if ((p * 100) %1 == 0)
-                System.out.println(p * 100 + "%");
-            Main.controller.pb_status.setProgress(p);
-        }
-
-        return index;
-    }
-
-    public static void shortestRouteR(int index, int indexMinDist, double minDist,LinkedList<Route> routesArr) {
-        //System.out.println(index + " / " + sizeOfRoutesArr/2);
-        if (index < sizeOfRoutesArr / 2){
-            if (minDist > routesArr.get(index).distance) {
-                minDist = routesArr.get(index).distance;
-                indexMinDist = index;
-            }
-
-            index++;
-            shortestRouteR( index, indexMinDist, minDist, routesArr);
-        }else {
-            indexMinDistRoute = indexMinDist;
-        }
-    }*/
 }

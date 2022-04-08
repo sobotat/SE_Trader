@@ -1,2 +1,2 @@
 JAVA_VERSION="17.0.2"
-MODULES="java.base java.datatransfer java.xml java.prefs java.desktop javafx.base jdk.unsupported javafx.graphics javafx.controls com.dlsc.formsfx com.setrader.merged.module java.scripting javafx.fxml java.logging org.controlsfx.controls org.kordamp.bootstrapfx.core com.setrader.se_trader"
+MODULES="java.base java.datatransfer java.xml java.prefs java.desktop javafx.base jdk.unsupported javafx.graphics javafx.controls com.dlsc.formsfx java.logging java.transaction.xa java.sql com.google.gson java.compiler java.management java.security.sasl java.naming java.rmi java.scripting com.setrader.merged.module javafx.fxml org.apache.logging.log4j org.controlsfx.controls org.json org.kordamp.bootstrapfx.core com.setrader.se_trader"
