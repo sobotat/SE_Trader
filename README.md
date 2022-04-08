@@ -2,7 +2,7 @@
   <img src="src/main/resources/se_trader_logo.png" alt="SE_Trader Logo" width="150" height="150">
 </p>
 
-<h3 align="center"><span style="color:#96c8ff">SE Trader</span></h3>
+<h3 align="center">SE Trader</h3>
 
 <p align="center">
   Made for Space Engineers for easier travels
@@ -40,14 +40,19 @@ An app that makes it easy for you to choose a trading route.
 2. Calculate:
    - **By Next** - Finds the shortest distance from the GPS
    - **By Dist** - It will find all combinations. Calculates the distance and finds the smallest.
-3. You can find your Route in **Documents\SE_Trader\route.txt** or click **View Route**
+3. Now you are done with bad routes
 
+PS: _You can find your **Route** in `Documents\SE_Trader\route.txt` or click **View Route**_
 
 ---
 ### <span style="color:#96c8ff">Install</span>
-1. Download **exe** or **msi** file
+    📢 It will warn you that the software is unsafe. This is because it has no certificate.
+       (Too expensive for a student's life)
+
+1. Download **exe** or **msi** file <a href="https://github.com/sobotat/SE_Trader/releases/latest">📄 From Here</a>
 2. Install it and you are ready to use.
-3. GPS and Route File is located in **Documents\SE_Trader** folder
+
+PS: *GPS and Route File is located in `Documents\SE_Trader` folder*
 
 ---
 ### <span style="color:#96c8ff">Work to need to be done</span>
@@ -55,6 +60,26 @@ An app that makes it easy for you to choose a trading route.
    - Add Settings Page
    - ~~Implement Log System~~
    - Make App Better
+
+---
+### <span style="color:#96c8ff">GPS Format</span>
+
+The GPS format is taken from the game.
+So there is no need to redo anything. <br>
+In case you want to use the app for other things. <br> 
+The GPS consists of a name, x, y, z coordinates and a color in hex.
+
+```text
+---:NAME---:X------:Y------:Z------:COLOR--:
+GPS:Station:25000.5:25000.5:25000.5:#96c8ff:
+```
+---
+### <span style="color:#96c8ff">Ideas or Bugs</span>
+
+It's like with any software. I'll be glad for any reported bugs, and I'll also be glad for ideas on how to improve the application.
+
+🛠️ You can report a bug <a href="https://github.com/sobotat/SE_Trader/issues">Here</a> <br>
+⭐ Here you can tell about your idea <a href="https://github.com/sobotat/SE_Trader/discussions/categories/ideas">Here</a>
 
 ---
 ### <span style="color:#96c8ff">Changelog</span>
@@ -122,3 +147,10 @@ An app that makes it easy for you to choose a trading route.
 
 
 </details>
+
+---
+
+#### <span style="color:#96c8ff">Thanks</span>
+
+🎖️ For his **help** and **ideas** [<a href="https://steamcommunity.com/profiles/76561198029329464">N.Blue</a>] <br>
+🏅 For finding a big bug in route calculation [<a href="https://github.com/jakubhyza">Jakub Hýža</a>]
