@@ -32,7 +32,7 @@ public class ItemGPSController{
         dot_color.setFill(Paint.valueOf(gps.color));
 
         if (RouteCalculator.homeIndex == Main.gpsArr.indexOf(gps))
-            btn_home.setStyle("-fx-background-color: #96c8ff; -fx-background-radius: 20;");
+            btn_home.setStyle("-fx-background-color: colorAccent; -fx-background-radius: 20;");
 
         btn_copy.setOnMouseClicked(event -> {
             Main.controller.tf_InfoBar.setText(gps.toString());
@@ -46,11 +46,25 @@ public class ItemGPSController{
                 ItemGPSController thisController = GPScontrollers.get(Main.gpsArr.indexOf(gps));
                 for (ItemGPSController controller : GPScontrollers) {
                     if (thisController != controller){
-                        controller.btn_home.setStyle("-fx-background-color: #2f2f2f; -fx-background-radius: 20;");
+                        controller.btn_home.setStyle("-fx-background-color: colorLightGray; -fx-background-radius: 20;");
                     }else{
-                        controller.btn_home.setStyle("-fx-background-color: #96c8ff; -fx-background-radius: 20;");
+                        controller.btn_home.setStyle("-fx-background-color: colorAccent; -fx-background-radius: 20;");
                     }
                 }
+            }
+        });
+
+        btn_home.setOnMouseEntered(event -> {
+            if (RouteCalculator.homeIndex != Main.gpsArr.indexOf(gps)) {
+                ItemGPSController controller = GPScontrollers.get(Main.gpsArr.indexOf(gps));
+                controller.btn_home.setStyle("-fx-background-color: colorDarkGray; -fx-background-radius: 20;");
+            }
+        });
+
+        btn_home.setOnMouseExited(event -> {
+            if (RouteCalculator.homeIndex != Main.gpsArr.indexOf(gps)) {
+                ItemGPSController controller = GPScontrollers.get(Main.gpsArr.indexOf(gps));
+                controller.btn_home.setStyle("-fx-background-color: colorLightGray; -fx-background-radius: 20;");
             }
         });
 

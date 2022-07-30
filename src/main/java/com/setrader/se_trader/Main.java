@@ -26,6 +26,7 @@ public class Main extends Application {
     protected static LinkedList<GPS> routeArr = new LinkedList<>();     // Final Route
     protected static LinkedList<Route> routesArr = new LinkedList<>();  // All Routes
     protected static int routeCurrent = 0;
+    protected static Stage mainStage;
 
     @Override
     public void start(Stage stage) throws IOException {
@@ -39,6 +40,7 @@ public class Main extends Application {
         String css = Objects.requireNonNull(this.getClass().getResource("main-view.css")).toExternalForm();
         scene.getStylesheets().add(css);
 
+        mainStage = stage;
         stage.initStyle(StageStyle.DECORATED);
         scene.setFill(Color.TRANSPARENT);
 
@@ -60,13 +62,13 @@ public class Main extends Application {
 
         // Getting Controller
         controller = fxmlLoader.getController();
+        controller.animation();
 
         // Loading GPS from file to Arr and Table
-        controller.pb_status.setVisible(false);
+        //controller.pb_status.setVisible(false);
+        controller.pb_status.setProgress(1);
         controller.loadGPSList("gps.txt", true);
         controller.updateBackHomeButton(false);
-
-
 
         stage.setOnCloseRequest(e -> {
             Files.writeGPS("gps.txt", gpsArr);
@@ -90,6 +92,13 @@ public class Main extends Application {
                 }, 50);
             }
         });
+    }
+
+    protected static void stageResizable(boolean resize){
+        if(mainStage == null)
+            return;
+
+        mainStage.setResizable(resize);
     }
 
     public static void main(String[] args) {launch();}

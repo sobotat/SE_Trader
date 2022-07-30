@@ -1,9 +1,13 @@
 .root{
-    -fx-background-color: #1B1B1B;
+    colorDarkGray: #17181A;
+    colorLightGray: #23282F;/*#1D232A*/
+    colorAccent: #96c8ff;
+
+    -fx-background-color: colorDarkGray;
 }
 
 .button{
-    -fx-background-color: #1F1F1F;
+    -fx-background-color: colorDarkGray;
     -fx-text-fill : "white";
     -fx-background-radius : 20;
 }
@@ -13,54 +17,36 @@
 }
 
 .check-box:selected .mark {
-
--fx-background-color: white;
-
+    -fx-background-color: white;
 }
 
 .check-box:selected .box {
-
--fx-background-color: #96c8ff;
-}
-
-.table-column{
-    -fx-background-color: #7b7b7b;
-    -fx-text-fill : "white";
-}
-
-.table-cell{
-    -fx-background-color: #5b5b5b;
-    -fx-text-fill : "white";
-}
-
-.table-view{
-    -fx-background-color: #1F1F1F;
-    -fx-background-radius : 20;
+    -fx-background-color: colorAccent;
 }
 
 .text-field{
     -fx-text-fill : "white";
-    -fx-background-color: #1F1F1F;
+    -fx-background-color: colorDarkGray;
     -fx-background-radius : 20;
 }
 
 .progress-bar > .track {
-  -fx-text-box-border:  #2F2F2F;
-  -fx-control-inner-background:  #2F2F2F;
+  -fx-text-box-border: colorLightGray;
+  -fx-control-inner-background: colorLightGray;
 }
 
 .progress-bar .bar {
     -fx-padding: 1px;
     -fx-background-insets: 0;
-    -fx-background-color: #96c8ff;
+    -fx-background-color: colorAccent;
 }
 
 .scroll-pane {
-    -fx-background-color: #1F1F1F;
+    -fx-background-color: colorDarkGray;
 }
 
 .scroll-pane > .corner {
-    -fx-background-color: #1F1F1F;
+    -fx-background-color: colorDarkGray;
 }
 
 .scroll-bar:horizontal, .scroll-bar:vertical{
@@ -81,32 +67,40 @@
 
 .scroll-bar:horizontal .thumb,
 .scroll-bar:vertical .thumb {
-    -fx-background-color: #96c8ff;
+    -fx-background-color: colorAccent;
     -fx-background-radius: 5em;
 }
 
+#box_Black {
+    -fx-background-color: colorDarkGray;
+}
+
+#box_Gray {
+    -fx-background-color: colorLightGray;
+}
+
 #btn_Black {
-    -fx-background-color: #1F1F1F;
+    -fx-background-color: colorDarkGray;
     -fx-background-radius: 20;
 }
 
 #btn_Black:hover {
-    -fx-background-color: #2F2F2F;
+    -fx-background-color: colorLightGray;
     -fx-background-radius: 20;
-    -fx-border-color: #1F1F1F;
+    -fx-border-color: colorDarkGray;
     -fx-border-radius: 20;
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 3, 0, 0, 0);
 }
 
 #btn_Gray {
-    -fx-background-color: #2F2F2F;
+    -fx-background-color: colorLightGray;
     -fx-background-radius: 20;
 }
 
 #btn_Gray:hover {
-    -fx-background-color: #1F1F1F;
+    -fx-background-color: colorDarkGray;
     -fx-background-radius: 20;
-    -fx-border-color: #2F2F2F;
+    -fx-border-color: colorLightGray;
     -fx-border-radius: 20;
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 3, 0, 0, 0);
 }

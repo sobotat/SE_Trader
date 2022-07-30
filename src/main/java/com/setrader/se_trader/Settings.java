@@ -8,8 +8,8 @@ import com.google.gson.*;
 public class Settings {
     private static final Logger logger = LogManager.getLogger(Settings.class.getName());
 
-    protected static double winWidthDefault = 900;
-    protected static double winHeightDefault = 500;
+    protected static double winWidthDefault = 1050;
+    protected static double winHeightDefault = 550;
     protected static double winWidth = winWidthDefault;
     protected static double winHeight = winHeightDefault;
     protected static boolean winCanResize = true;
@@ -32,6 +32,10 @@ public class Settings {
                 winCanResize = windowObj.getBoolean("winCanResize");
                 winIsMaximize = windowObj.getBoolean("winIsMaximize");
 
+                JSONObject routeCalculatorObj = settingsObj.getJSONObject("routeCalculator");
+                RouteCalculator.GPSColor = routeCalculatorObj.getString("GPSExportColor");
+                RouteCalculator.multiThreading = routeCalculatorObj.getBoolean("MultiThreading");
+
                 logger.info("Load Settings Done");
             }catch (org.json.JSONException e){
                 saveSettings();
@@ -46,6 +50,10 @@ public class Settings {
         settingsObj.put("homeIndex", RouteCalculator.homeIndex);
         settingsObj.put("backHome", RouteCalculator.backHome);
 
+        JSONObject routeCalculatorObj = new JSONObject();
+        routeCalculatorObj.put("GPSExportColor", RouteCalculator.GPSColor);
+        routeCalculatorObj.put("MultiThreading", RouteCalculator.multiThreading);
+
         JSONObject windowObj = new JSONObject();
         windowObj.put("winWidth", winWidth);
         windowObj.put("winHeight", winHeight);
@@ -55,6 +63,7 @@ public class Settings {
         windowObj.put("winIsMaximize", winIsMaximize);
 
         settingsObj.put("window", windowObj);
+        settingsObj.put("routeCalculator", routeCalculatorObj);
 
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         JsonElement je = JsonParser.parseString( settingsObj.toString());

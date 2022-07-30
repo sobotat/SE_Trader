@@ -41,14 +41,14 @@ public class Route {
     }
 
     // Write into file and Main
-    public static void write(Route route, LinkedList<GPS> gpsArr){
+    public static void write(Route route, LinkedList<GPS> gpsArr, String color){
         LinkedList<GPS> routeGPS = new LinkedList<>();
 
         //int index: route.gpsIndex
         for (int i = 0; i < route.gpsIndex.size(); i++){
             GPS gps = gpsArr.get(route.gpsIndex.get(i));
             GPS gpsRoute = GPS.makeFromString(gps.toString());
-            gpsRoute.color = "#FFBB00";
+            gpsRoute.color = color;
             gpsRoute.name = String.format("%02d %s", i, gpsRoute.name.replaceAll("\\d","").trim());
             routeGPS.add(gpsRoute);
         }

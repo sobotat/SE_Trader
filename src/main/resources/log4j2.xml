@@ -13,7 +13,7 @@
             <PatternLayout>
                 <pattern>%d [%p] [%t] %logger{36} -> %msg%n</pattern>
             </PatternLayout>
-            <SizeBasedTriggeringPolicy size="100 KB"/>
+            <SizeBasedTriggeringPolicy size="5 MB"/>
             <DefaultRolloverStrategy max="3" >
                 <Delete basePath="${filename}" maxDepth="1">
                     <IfFileName glob="log_*.log" />

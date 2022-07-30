@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -35,10 +36,14 @@ public class Controller {
     public HBox hBox_backHome;
     @FXML
     public ProgressBar pb_status;
+    @FXML
+    BorderPane bPane_screen;
 
     static boolean viewRoute = false;
     static boolean timerEnd = true;
     private Node bp_RouteSelectorNode;
+    private Node bp_SettingsNode;
+    private SettingsController settingsController;
 
     // Load Table of GPS
     public void loadGPSList(String fileName, boolean firstLoad){
@@ -58,7 +63,7 @@ public class Controller {
                 }
 
                 if (!Main.routesArr.isEmpty())
-                    Route.write(Main.routesArr.get(Main.routeCurrent), Main.gpsArr);
+                    Route.write(Main.routesArr.get(Main.routeCurrent), Main.gpsArr, RouteCalculator.GPSColor);
 
                 Main.routeArr = Files.readGPS(fileName);
                 arr = Main.routeArr;
@@ -96,8 +101,8 @@ public class Controller {
                 ItemGPSController gpsController = fxmlLoader.getController();
                 gpsController.setItem(arr.get(i));
 
-                nodes[i].setOnMouseEntered(event -> nodes[h].setStyle("-fx-background-color: #2F2F2F"));
-                nodes[i].setOnMouseExited(event -> nodes[h].setStyle("-fx-background-color: #1F1F1F"));
+                nodes[i].setOnMouseEntered(event -> nodes[h].setStyle("-fx-background-color: colorLightGray"));
+                nodes[i].setOnMouseExited(event -> nodes[h].setStyle("-fx-background-color: colorDarkGray"));
 
                 ItemGPSController.GPScontrollers.add(gpsController);
                 vBox_List.getChildren().add(nodes[i]);
@@ -124,22 +129,57 @@ public class Controller {
 
     public void updateBackHomeButton(boolean entered){
         if (RouteCalculator.backHome) {
-            hBox_backHome.setStyle("-fx-background-color: #96c8ff; -fx-background-radius: 20;");
+            hBox_backHome.setStyle("-fx-background-color: colorAccent; -fx-background-radius: 20;");
             if (entered)
-                hBox_backHome.setStyle(hBox_backHome.getStyle() + "-fx-border-color: #1F1F1F; -fx-border-radius: 20;");
+                hBox_backHome.setStyle(hBox_backHome.getStyle() + "-fx-border-color: colorDarkGray; -fx-border-radius: 20;");
         }else {
             if (entered) {
-                hBox_backHome.setStyle("-fx-background-color: #2F2F2F; -fx-background-radius: 20;" +
+                hBox_backHome.setStyle("-fx-background-color: colorLightGray; -fx-background-radius: 20;" +
                         "-fx-border-color: #1F1F1F; -fx-border-radius: 20;" +
                         "-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 3, 0, 0, 0);");
             }else
-                hBox_backHome.setStyle("-fx-background-color: #1F1F1F; -fx-background-radius: 20;");
+                hBox_backHome.setStyle("-fx-background-color: colorDarkGray; -fx-background-radius: 20;");
         }
     }
 
     // Control Emergency Stop
     public void onStopButtonClick(){
         RouteCalculator.calculationStop = true;
+    }
+
+    public void onSettingsButtonClick(){
+        try {
+            if(bp_SettingsNode == null){
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(Main.class.getResource("settings-view.fxml"));
+                bp_SettingsNode = fxmlLoader.load();
+
+                settingsController = fxmlLoader.getController();
+                settingsController.init();
+                settingsController.updateAll();
+                settingsController.animation();
+                bPane_screen.setRight(bp_SettingsNode);
+
+            }else{
+                if(bPane_screen.getRight() != null)
+                    bPane_screen.setRight(null);
+                else {
+                    bPane_screen.setRight(bp_SettingsNode);
+                    settingsController.updateAll();
+                    settingsController.animation();
+                }
+            }
+        }catch (Exception e){
+            logger.error(e.getMessage());
+        }
+
+        Timer timer = new Timer(true);
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                updateItemsWidth();
+            }
+        }, 50);
     }
 
     // Save Button
@@ -195,27 +235,16 @@ public class Controller {
                 pb_status.setVisible(true);
                 pb_status.setProgress(0);
 
-                Integer[] startGPS = new Integer[Main.gpsArr.size()-1];
-                int j = 0;
-                for (int i = 0; i < Main.gpsArr.size(); i++) {
-                    if (i != RouteCalculator.homeIndex) {
-                        startGPS[j] = i;
-                        j++;
-                    }
-                }
-
-                Integer[] routeGPS = new Integer[1];
-                routeGPS[0] = RouteCalculator.homeIndex;
+                RouteCalculator calculator = new RouteCalculator();
+                Runnable runCalculateDist = () -> {
+                    if(RouteCalculator.multiThreading)
+                        calculator.routeCalculateByShortestMultiThread( Main.gpsArr);
+                    else
+                        calculator.routeCalculateByShortestSingleThread( Main.gpsArr);
+                };
 
                 Main.routesArr.clear();
                 Main.routeArr.clear();
-
-                logger.info("Calculating Possible Routes");
-                RouteCalculator calculator = new RouteCalculator();
-                RouteCalculator.numOfDoneRoutes = 0;
-                RouteCalculator.numOfCombination = Api.factorial(Main.gpsArr.size() - 1);
-
-                Runnable runCalculateDist = () -> calculator.routeCalculateByShortestDist( startGPS, routeGPS);
 
                 Thread threadCalculateDist = new Thread(runCalculateDist, "ThreadCalculateDist");
                 threadCalculateDist.start();
@@ -255,6 +284,7 @@ public class Controller {
                 for (Route r: Main.routesArr){
                     r.distance = RouteCalculator.routeDistance(r);
                 }
+
                 Main.routeCurrent = 0;
                 logger.info("Calculating Possible Routes Done");
 
@@ -262,11 +292,11 @@ public class Controller {
                     Route shortestRoute = Main.routesArr.get(Main.routeCurrent);
                     logger.info(shortestRoute.toStringDist());
 
-                    Route.write(shortestRoute, Main.gpsArr);
+                    Route.write(shortestRoute, Main.gpsArr, RouteCalculator.GPSColor);
 
                     Platform.runLater(() -> {
                         viewRoute = true;
-                        loadGPSList("route.txt", false);
+                        updateViewButton();
                         tf_InfoBar.clear();
 
                         if (!RouteCalculator.calculationStop)
@@ -283,14 +313,19 @@ public class Controller {
                     });
                 }
                 pb_status.setProgress(1);
+                System.out.println(RouteCalculator.numOfDoneRoutes + "/" + RouteCalculator.numOfCombination);
             }
         };
 
-        if (RouteCalculator.numOfDoneRoutes == RouteCalculator.numOfCombination || RouteCalculator.calculationStop) {
-            Thread threadCalculate = new Thread(runCalculate, "CalculateThread");
-            threadCalculate.setDaemon(true);
-            threadCalculate.start();
+        Thread t = Api.getThreadByName("CalculateThread");
+        if(t != null) {
+            logger.info("Calculation still running");
+            return;
         }
+
+        Thread threadCalculate = new Thread(runCalculate, "CalculateThread");
+        threadCalculate.setDaemon(true);
+        threadCalculate.start();
     }
 
     public void onCalculateNextButtonClick(){
@@ -334,12 +369,16 @@ public class Controller {
 
     // View GPS/Route
     public void onViewButtonClick(){
-        if (!viewRoute) {
-            viewRoute = true;
+        viewRoute = !viewRoute;
+        updateViewButton();
+    }
+
+    // Updates style of View button and loads table
+    protected void updateViewButton(){
+        if (viewRoute) {
             tv_viewButton.setText("GPS");
             loadGPSList("route.txt", false);
         }else{
-            viewRoute = false;
             tv_viewButton.setText("Route");
             loadGPSList("gps.txt", false);
         }
@@ -385,13 +424,18 @@ public class Controller {
     // Update Size of Items in the Table
     protected void updateItemsWidth(){
         for (ItemGPSController controller : ItemGPSController.GPScontrollers) {
-            controller.hBox_Item.setMinWidth(vBox_List.widthProperty().get() - 30);
+            //controller.hBox_Item.setMinWidth(vBox_List.widthProperty().get() - 30);
             controller.hBox_Item.setMaxWidth(vBox_List.widthProperty().get() - 30);
         }
     }
 
+    protected void animation(){
+        //TODO Add Animation
+    }
+
     // On Start
     public void initialize(){
+
         scl_List.widthProperty().addListener((obs, oldVal, newVal) -> {
             vBox_List.setMaxWidth(scl_List.widthProperty().get());
             vBox_List.setMinWidth(scl_List.widthProperty().get());

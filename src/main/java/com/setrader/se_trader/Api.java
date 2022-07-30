@@ -3,6 +3,8 @@ package com.setrader.se_trader;
 import java.awt.Toolkit;
 import java.awt.datatransfer.*;
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Api {
 
@@ -28,5 +30,26 @@ public class Api {
         } catch (Exception e){
             return "";
         }
+    }
+
+    public static Thread getThreadByName(String threadName) {
+        for (Thread t : Thread.getAllStackTraces().keySet()) {
+            if (t.getName().equals(threadName)) return t;
+        }
+        return null;
+    }
+
+    public static boolean isValidHexaCode(String str)    {
+        // Regex to check valid hexadecimal color code.
+        String regex = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$";
+
+        Pattern p = Pattern.compile(regex);
+
+        if (str == null) {
+            return false;
+        }
+
+        Matcher m = p.matcher(str);
+        return m.matches();
     }
 }

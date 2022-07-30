@@ -14,15 +14,21 @@ public class RouteCalculator {
     protected static Double currentMinDist = Double.MAX_VALUE;
     protected static long numOfCombination = 0;
     protected static long numOfDoneRoutes = 0;
-    protected static int shortestRouteIndex = -1;
-    protected static int shortestRouteDone = 0;
+    private static int[] numOfDoneRoutesArr = null; // For Multithreading
     protected static boolean calculationStop = false;
     protected static int homeIndex = 0;
+
+    // Settings
     protected static boolean backHome = true;
-    
+    protected static boolean multiThreading = true;
+    protected static String GPSColor = "#FFBB00";
+
     public RouteCalculator(){
         calculationStop = false;
         currentMinDist = Double.MAX_VALUE;
+
+        numOfDoneRoutes = 0;
+        numOfCombination = Api.factorial(Main.gpsArr.size() - 1);
     }
     
     public static void distMatrix(LinkedList<GPS> gpsArr){
@@ -38,7 +44,108 @@ public class RouteCalculator {
         }
     }
 
-    public void routeCalculateByShortestDist( Integer[] arrIndex, Integer[] arrRoute){
+    public void routeCalculateByShortestMultiThread( LinkedList<GPS> gpsArr){
+        int threads = gpsArr.size();
+        RouteCalculator.numOfDoneRoutesArr = new int[threads];
+
+        if(threads < 1) {
+            logger.error("Incorrect number of Threads");
+            return;
+        }
+
+        LinkedList<Runnable> tasks = new LinkedList<>();
+        for (int t = 0; t < threads; t++){
+            if(t == RouteCalculator.homeIndex)
+                continue;
+
+            RouteCalculator.numOfDoneRoutesArr[t] = 0;
+            Integer[] startGPS = new Integer[gpsArr.size()-2];
+            int j = 0;
+            for (int i = 0; i < gpsArr.size(); i++) {
+                if (i != RouteCalculator.homeIndex && i != t) {
+                    startGPS[j] = i;
+                    j++;
+                }
+            }
+
+            Integer[] routeGPS = new Integer[2];
+            routeGPS[0] = RouteCalculator.homeIndex;
+            routeGPS[1] = t;
+
+            int finalT = t;
+
+            Runnable runCalculateDist = () -> generateCombinations( startGPS, routeGPS, finalT);
+            tasks.push(runCalculateDist);
+        }
+
+        logger.info("Calculating Possible Routes");
+
+        LinkedList<Thread> arrThreads = new LinkedList<>();
+        for (int t = 0; t < tasks.size(); t++){
+            Thread threadCalculateDist = new Thread(tasks.get(t), "ThreadGenerateCombination_" + (t + 1));
+            arrThreads.add(threadCalculateDist);
+            arrThreads.getLast().start();
+            logger.info( threadCalculateDist.getName() + " Started");
+        }
+
+        int lastAlive = arrThreads.size();
+        boolean notDone = true;
+        while(notDone){
+            notDone = false;
+
+            int alive = 0;
+            for (Thread thread : arrThreads){
+                if (thread.isAlive()) {
+                    notDone = true;
+                    alive++;
+                }
+            }
+            if(lastAlive != alive){
+                lastAlive = alive;
+                logger.info("Done Threads " + (arrThreads.size() - alive));
+            }
+
+            int numOfDone = 0;
+            for(int t = 0; t < numOfDoneRoutesArr.length; t++){
+                //System.out.println("T" + t + " DoneRoutes " + numOfDoneRoutesArr[t]);
+                numOfDone += numOfDoneRoutesArr[t];
+            }
+            RouteCalculator.numOfDoneRoutes = numOfDone;
+        }
+    }
+
+    public void routeCalculateByShortestSingleThread(LinkedList<GPS> gpsArr){
+        Integer[] startGPS = new Integer[gpsArr.size()-1];
+        RouteCalculator.numOfDoneRoutesArr = new int[1];
+
+        int j = 0;
+        for (int i = 0; i < Main.gpsArr.size(); i++) {
+            if (i != RouteCalculator.homeIndex) {
+                startGPS[j] = i;
+                j++;
+            }
+        }
+
+        Integer[] routeGPS = new Integer[1];
+        routeGPS[0] = RouteCalculator.homeIndex;
+
+        logger.info("Calculating Possible Routes");
+
+        Runnable runCalculateDist = () -> generateCombinations( startGPS, routeGPS, 0);
+
+        Thread threadCalculateDist = new Thread(runCalculateDist, "ThreadGenerateCombination");
+        threadCalculateDist.start();
+
+        while(threadCalculateDist.isAlive()){
+            int numOfDone = 0;
+            for(int t = 0; t < numOfDoneRoutesArr.length; t++){
+                numOfDone += numOfDoneRoutesArr[t];
+            }
+            RouteCalculator.numOfDoneRoutes = numOfDone;
+        }
+    }
+
+    private void generateCombinations( Integer[] arrIndex, Integer[] arrRoute, int thread){
         if (calculationStop)
             return;
 
@@ -59,7 +166,7 @@ public class RouteCalculator {
                 System.arraycopy(arrRoute, 0, arrRouteNew, 0, arrRoute.length);
 
                 arrRouteNew[arrRouteNew.length - 1] = index;
-                routeCalculateByShortestDist(arrIndexNew, arrRouteNew);
+                generateCombinations(arrIndexNew, arrRouteNew, thread);
             }
         }else{
             Route r = new Route();
@@ -80,7 +187,9 @@ public class RouteCalculator {
                 Main.routesArr.push(r);
             }
 
-            numOfDoneRoutes++;
+            //numOfDoneRoutes++;
+            numOfDoneRoutesArr[thread]++;
+            //System.out.println(thread + " : " + numOfDoneRoutes + "/" + numOfCombination);
         }
     }
 
@@ -105,7 +214,7 @@ public class RouteCalculator {
             Main.routesArr.clear();
             Main.routesArr.add(route);
 
-            Route.write(route, Main.gpsArr);
+            Route.write(route, Main.gpsArr, RouteCalculator.GPSColor);
 
             logger.info(route.toStringDist());
         }

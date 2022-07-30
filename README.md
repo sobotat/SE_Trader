@@ -31,7 +31,7 @@ An app that makes it easy for you to choose a trading route.
 
 ---
 ### <span style="color:#96c8ff">UI</span>
-![UI](src/main/resources/art/se_trader_1.2.png)
+![UI](src/main/resources/art/se_trader_1.3.png)
 
 ---
 ### <span style="color:#96c8ff">How To Use</span>
@@ -57,8 +57,8 @@ PS: *GPS and Route File is located in `Documents\SE_Trader` folder*
 ---
 ### <span style="color:#96c8ff">Work to need to be done</span>
 
-   - Add Settings Page
-   - ~~Implement Log System~~
+   - Add Animations
+   - Implement something like navigation from start to end GPS 
    - Make App Better
 
 ---
@@ -80,6 +80,15 @@ It's like with any software. I'll be glad for any reported bugs, and I'll also b
 
 🛠️ You can report a bug <a href="https://github.com/sobotat/SE_Trader/issues">Here</a> <br>
 ⭐ Here you can tell about your idea <a href="https://github.com/sobotat/SE_Trader/discussions/categories/ideas">Here</a>
+
+---
+### <span style="color:#96c8ff">Multithreading Mode</span>
+
+
+A mode that speeds up the calculation of combinations.
+
+**Off** - low CPU impact <br>
+**On** - high CPU impact
 
 ---
 ### <span style="color:#96c8ff">Changelog</span>
@@ -143,6 +152,13 @@ It's like with any software. I'll be glad for any reported bugs, and I'll also b
       - Fixed app icon in title bar
       - Button design reworked
       - Calculation Optimalization
+    - v1.3
+      - Added Multithreading option (Something like 4 times boost)
+      - Added Setting Page
+      - Added Full CSS implementation
+      - Implement option to change export GPS color
+      - Edited defauld width and height of app
+      - Fixed View Button not changing text after creating route
 
 
 
