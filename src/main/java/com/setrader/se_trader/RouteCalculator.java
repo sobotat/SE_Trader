@@ -16,9 +16,9 @@ public class RouteCalculator {
     protected long numOfDoneRoutes = 0;
     private int[] numOfDoneRoutesArr = null; // For Multithreading
     protected boolean calculationStop = false;
-    protected static int homeIndex = 0;
 
     // Settings
+    protected static int homeIndex = 0;
     protected static boolean backHome = true;
     protected static boolean multiThreading = true;
     protected static String GPSColor = "#FFBB00";
