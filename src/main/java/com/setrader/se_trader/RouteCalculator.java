@@ -10,12 +10,12 @@ public class RouteCalculator {
     private static final Logger logger = LogManager.getLogger(RouteCalculator.class.getName());
 
     // Array of All Routes
-    private static Double[][] distM = null;
-    protected static Double currentMinDist = Double.MAX_VALUE;
-    protected static long numOfCombination = 0;
-    protected static long numOfDoneRoutes = 0;
-    private static int[] numOfDoneRoutesArr = null; // For Multithreading
-    protected static boolean calculationStop = false;
+    private Double[][] distM = null;
+    protected Double currentMinDist = Double.MAX_VALUE;
+    protected long numOfCombination = 0;
+    protected long numOfDoneRoutes = 0;
+    private int[] numOfDoneRoutesArr = null; // For Multithreading
+    protected boolean calculationStop = false;
     protected static int homeIndex = 0;
 
     // Settings
@@ -24,14 +24,10 @@ public class RouteCalculator {
     protected static String GPSColor = "#FFBB00";
 
     public RouteCalculator(){
-        calculationStop = false;
-        currentMinDist = Double.MAX_VALUE;
-
-        numOfDoneRoutes = 0;
         numOfCombination = Api.factorial(Main.gpsArr.size() - 1);
     }
     
-    public static void distMatrix(LinkedList<GPS> gpsArr){
+    public void distMatrix(LinkedList<GPS> gpsArr){
         distM = new Double[gpsArr.size()][gpsArr.size()];
 
         for (int n = 0; n < gpsArr.size(); n++){
@@ -46,7 +42,7 @@ public class RouteCalculator {
 
     public void routeCalculateByShortestMultiThread( LinkedList<GPS> gpsArr){
         int threads = gpsArr.size();
-        RouteCalculator.numOfDoneRoutesArr = new int[threads];
+        numOfDoneRoutesArr = new int[threads];
 
         if(threads < 1) {
             logger.error("Incorrect number of Threads");
@@ -58,7 +54,7 @@ public class RouteCalculator {
             if(t == RouteCalculator.homeIndex)
                 continue;
 
-            RouteCalculator.numOfDoneRoutesArr[t] = 0;
+            numOfDoneRoutesArr[t] = 0;
             Integer[] startGPS = new Integer[gpsArr.size()-2];
             int j = 0;
             for (int i = 0; i < gpsArr.size(); i++) {
@@ -110,13 +106,13 @@ public class RouteCalculator {
                 //System.out.println("T" + t + " DoneRoutes " + numOfDoneRoutesArr[t]);
                 numOfDone += numOfDoneRoutesArr[t];
             }
-            RouteCalculator.numOfDoneRoutes = numOfDone;
+            numOfDoneRoutes = numOfDone;
         }
     }
 
     public void routeCalculateByShortestSingleThread(LinkedList<GPS> gpsArr){
         Integer[] startGPS = new Integer[gpsArr.size()-1];
-        RouteCalculator.numOfDoneRoutesArr = new int[1];
+        numOfDoneRoutesArr = new int[1];
 
         int j = 0;
         for (int i = 0; i < Main.gpsArr.size(); i++) {
@@ -141,7 +137,7 @@ public class RouteCalculator {
             for(int t = 0; t < numOfDoneRoutesArr.length; t++){
                 numOfDone += numOfDoneRoutesArr[t];
             }
-            RouteCalculator.numOfDoneRoutes = numOfDone;
+            numOfDoneRoutes = numOfDone;
         }
     }
 
@@ -180,7 +176,7 @@ public class RouteCalculator {
                 Collections.addAll(r.gpsIndex, arrRoute);
             }
 
-            r.distance = RouteCalculator.routeDistance(r);
+            r.distance = routeDistance(r);
 
             if (r.distance < currentMinDist) {
                 currentMinDist = r.distance;
@@ -209,7 +205,7 @@ public class RouteCalculator {
             if (backHome)
                 route.gpsIndex.add(homeIndex);
 
-            route.distance = RouteCalculator.routeDistance(route);
+            route.distance = routeDistance(route);
 
             Main.routesArr.clear();
             Main.routesArr.add(route);
@@ -268,7 +264,7 @@ public class RouteCalculator {
     */
 
     // Calculate distance in route in km
-    public static double routeDistance(Route route){
+    public double routeDistance(Route route){
         // Variable
         double dist = 0;
 

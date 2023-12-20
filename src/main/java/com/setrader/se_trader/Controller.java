@@ -44,6 +44,7 @@ public class Controller {
     private Node bp_RouteSelectorNode;
     private Node bp_SettingsNode;
     private SettingsController settingsController;
+    private RouteCalculator calculator;
 
     // Load Table of GPS
     public void loadGPSList(String fileName, boolean firstLoad){
@@ -144,7 +145,7 @@ public class Controller {
 
     // Control Emergency Stop
     public void onStopButtonClick(){
-        RouteCalculator.calculationStop = true;
+        calculator.calculationStop = true;
     }
 
     public void onSettingsButtonClick(){
@@ -235,7 +236,7 @@ public class Controller {
                 pb_status.setVisible(true);
                 pb_status.setProgress(0);
 
-                RouteCalculator calculator = new RouteCalculator();
+                calculator = new RouteCalculator();
                 Runnable runCalculateDist = () -> {
                     if(RouteCalculator.multiThreading)
                         calculator.routeCalculateByShortestMultiThread( Main.gpsArr);
@@ -251,18 +252,17 @@ public class Controller {
 
                 Timer timer;
                 while (threadCalculateDist.isAlive()){
-                    double progress = (double) RouteCalculator.numOfDoneRoutes / (double) RouteCalculator.numOfCombination;
+                    double progress = (double) calculator.numOfDoneRoutes / (double) calculator.numOfCombination;
                     pb_status.setProgress(progress);
-
 
                     if (timerEnd){
                         double percents = (progress * 100);
                         System.out.printf("%.2f%c\n", percents, '%');
                         String s;
-                        if (RouteCalculator.currentMinDist != Double.MAX_VALUE)
-                            s = String.format("[%3d%c] <-> %d/%d -- [Current %.0f]", (int)percents, '%', RouteCalculator.numOfDoneRoutes, RouteCalculator.numOfCombination, RouteCalculator.currentMinDist);
+                        if (calculator.currentMinDist != Double.MAX_VALUE)
+                            s = String.format("[%3d%c] <-> %d/%d -- [Current %.0f]", (int)percents, '%', calculator.numOfDoneRoutes, calculator.numOfCombination, calculator.currentMinDist);
                         else
-                            s = String.format("[%3d%c] <-> %d/%d", (int)percents, '%', RouteCalculator.numOfDoneRoutes, RouteCalculator.numOfCombination);
+                            s = String.format("[%3d%c] <-> %d/%d", (int)percents, '%', calculator.numOfDoneRoutes, calculator.numOfCombination);
 
                         Platform.runLater(() -> {
                             tf_InfoBar.clear();
@@ -280,9 +280,9 @@ public class Controller {
                     }
                 }
 
-                RouteCalculator.distMatrix(Main.gpsArr);
+                calculator.distMatrix(Main.gpsArr);
                 for (Route r: Main.routesArr){
-                    r.distance = RouteCalculator.routeDistance(r);
+                    r.distance = calculator.routeDistance(r);
                 }
 
                 Main.routeCurrent = 0;
@@ -299,7 +299,7 @@ public class Controller {
                         updateViewButton();
                         tf_InfoBar.clear();
 
-                        if (!RouteCalculator.calculationStop)
+                        if (!calculator.calculationStop)
                             tf_InfoBar.setText("Distance of route is " + Math.round(shortestRoute.distance));
                         else
                             tf_InfoBar.setText("Route Calculation Canceled");
@@ -313,7 +313,7 @@ public class Controller {
                     });
                 }
                 pb_status.setProgress(1);
-                System.out.println(RouteCalculator.numOfDoneRoutes + "/" + RouteCalculator.numOfCombination);
+                System.out.println(calculator.numOfDoneRoutes + "/" + calculator.numOfCombination);
             }
         };
 
@@ -338,7 +338,7 @@ public class Controller {
             // Start route calculation
             if (!Main.gpsArr.isEmpty()) {
                 pb_status.setProgress(0.05);
-                RouteCalculator calculator = new RouteCalculator();
+                calculator = new RouteCalculator();
                 LinkedList<GPS> routeGPS = new LinkedList<>(Main.gpsArr);
 
                 GPS startGPS = routeGPS.remove(RouteCalculator.homeIndex);
