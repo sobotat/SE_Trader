@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.concurrent.Semaphore;
 
 public class RouteCalculator {
     private static final Logger logger = LogManager.getLogger(RouteCalculator.class.getName());
@@ -14,7 +15,7 @@ public class RouteCalculator {
     protected Double currentMinDist = Double.MAX_VALUE;
     protected long numOfCombination = 0;
     protected long numOfDoneRoutes = 0;
-    private int[] numOfDoneRoutesArr = null; // For Multithreading
+    private long[] numOfDoneRoutesArr = null; // For Multithreading
     protected boolean calculationStop = false;
 
     // Settings
@@ -42,7 +43,7 @@ public class RouteCalculator {
 
     public void routeCalculateByShortestMultiThread( LinkedList<GPS> gpsArr){
         int threads = gpsArr.size();
-        numOfDoneRoutesArr = new int[threads];
+        numOfDoneRoutesArr = new long[threads];
 
         if(threads < 1) {
             logger.error("Incorrect number of Threads");
@@ -54,7 +55,6 @@ public class RouteCalculator {
             if(t == RouteCalculator.homeIndex)
                 continue;
 
-            numOfDoneRoutesArr[t] = 0;
             Integer[] startGPS = new Integer[gpsArr.size()-2];
             int j = 0;
             for (int i = 0; i < gpsArr.size(); i++) {
@@ -98,12 +98,11 @@ public class RouteCalculator {
             }
             if(lastAlive != alive){
                 lastAlive = alive;
-                logger.info("Done Threads " + (arrThreads.size() - alive));
+                logger.info("Active Threads [" + alive + "/" + arrThreads.size() + "]");
             }
 
-            int numOfDone = 0;
+            long numOfDone = 0;
             for(int t = 0; t < numOfDoneRoutesArr.length; t++){
-                //System.out.println("T" + t + " DoneRoutes " + numOfDoneRoutesArr[t]);
                 numOfDone += numOfDoneRoutesArr[t];
             }
             numOfDoneRoutes = numOfDone;
@@ -112,7 +111,7 @@ public class RouteCalculator {
 
     public void routeCalculateByShortestSingleThread(LinkedList<GPS> gpsArr){
         Integer[] startGPS = new Integer[gpsArr.size()-1];
-        numOfDoneRoutesArr = new int[1];
+        numOfDoneRoutesArr = new long[1];
 
         int j = 0;
         for (int i = 0; i < Main.gpsArr.size(); i++) {
@@ -133,7 +132,7 @@ public class RouteCalculator {
         threadCalculateDist.start();
 
         while(threadCalculateDist.isAlive()){
-            int numOfDone = 0;
+            long numOfDone = 0;
             for(int t = 0; t < numOfDoneRoutesArr.length; t++){
                 numOfDone += numOfDoneRoutesArr[t];
             }

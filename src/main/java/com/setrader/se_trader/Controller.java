@@ -252,10 +252,8 @@ public class Controller {
 
                 Timer timer;
                 while (threadCalculateDist.isAlive()){
-                    double progress = (double) calculator.numOfDoneRoutes / (double) calculator.numOfCombination;
-                    pb_status.setProgress(progress);
-
                     if (timerEnd){
+                        double progress = (double) calculator.numOfDoneRoutes / (double) calculator.numOfCombination;
                         double percents = (progress * 100);
                         System.out.printf("%.2f%c\n", percents, '%');
                         String s;
@@ -265,6 +263,7 @@ public class Controller {
                             s = String.format("[%3d%c] <-> %d/%d", (int)percents, '%', calculator.numOfDoneRoutes, calculator.numOfCombination);
 
                         Platform.runLater(() -> {
+                            pb_status.setProgress(progress);
                             tf_InfoBar.clear();
                             tf_InfoBar.setText(s);
                         });
