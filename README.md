@@ -31,7 +31,7 @@ An app that makes it easy for you to choose a trading route.
 
 ---
 ### <span style="color:#96c8ff">UI</span>
-![UI](src/main/resources/art/se_trader_1.3.png)
+![UI](src/main/resources/art/se_trader_1.4.png)
 
 ---
 ### <span style="color:#96c8ff">How To Use</span>
@@ -159,6 +159,12 @@ A mode that speeds up the calculation of combinations.
       - Implement option to change export GPS color
       - Edited defauld width and height of app
       - Fixed View Button not changing text after creating route
+    - v1.4
+      - Modified colors in css
+      - Fixed overflow of numOfDone
+      - Fixed exception using UI on non UI thread
+      - Cleaned git build folder
+      - Changed static vars in RouteCalculator for object vars
 
 
 

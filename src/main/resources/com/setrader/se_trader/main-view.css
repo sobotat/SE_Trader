@@ -1,6 +1,6 @@
 .root{
-    colorDarkGray: #17181A;
-    colorLightGray: #23282F;/*#1D232A*/
+    colorDarkGray: #111111;/*#17181A*/
+    colorLightGray: #181818;/*#23282F;#1D232A*/
     colorAccent: #96c8ff;
 
     -fx-background-color: colorDarkGray;
